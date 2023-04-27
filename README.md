@@ -7,13 +7,9 @@ This package is for preprocessing sequence input files for Alphafold. Genomic se
 ## Install with `pip`
 
 ```
-pip install git+https://github.com/heeropang/Postprocessing --upgrade --user
+pip install git+https://github.com/heeropang/VirtualPullDown --upgrade --user
 
 ```
-
-If upgrading doesn't work as expected, run `pip uninstall run` before
-installing it.  
-
 
 <!-- Why it might be a good choice? -->
 
