@@ -183,8 +183,8 @@ if the prophage is found via Phaster, then the script will ask the user to proce
 Applying the prophage range found via Phaster
 ![Applying the range](./preprocessing/figures/automatic_input.png)
 
-2) Predictions: virtual pulldown
-# Sbatch scripts for structure predictions
+
+## Sbatch scripts for structure predictions
 sbatch scripts for generating MSA and predicted files using localcolabfold
 <!-- What is this for? --> 
 This is for submitting preprocessed sequence files in batch on slurm to generate multiple sequence alignments (MSA) and structure predictions using ['ColabFold'](https://github.com/sokrypton/ColabFold). 
