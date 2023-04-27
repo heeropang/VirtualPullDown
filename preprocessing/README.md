@@ -3,18 +3,6 @@
 ## Get started with `run`
 This package is for preprocessing sequence input files for Alphafold. Genomic sequence retrieved from NCBI will be used to search for prophages and fetch those prophage sequences or user specified regions in the genomic sequence. Then, these sequences are paired with the sequence of interest to be screened for binding partner(s) via Alphafold.
 
-
-## Install with `pip`
-
-```
-pip install git+https://github.com/heeropang/Postprocessing --upgrade --user
-
-```
-
-If upgrading doesn't work as expected, run `pip uninstall run` before
-installing it.  
-
-
 <!-- Why it might be a good choice? -->
 
 <!-- Minimal dependency -->
