@@ -6,13 +6,6 @@ This package contains three steps to streamline virtual pulldown experiments usi
 2) Predictions: using ColabFold to predict models of monomer/multimer 
 3) Postprocessing: making figures to navigate virtual pull down results
 
-## Install with `pip`
-
-```
-git clone https://github.com/heeropang/VirtualPullDown.git
-
-```
-
 <!-- Why it might be a good choice? -->
 <!-- Minimal dependency -->
 ## Preprocessing
