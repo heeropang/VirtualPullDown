@@ -2,12 +2,9 @@
 
 ## Get started with `VirtualPullDown`
 This package contains three steps to streamline virtual pulldown experiments using ColabFold: 
-1) Preprocessing
-2) Virtual pulldown
-3) Postprocessing
- 
-preprocessing sequence input files for ColabFold. Genomic sequence retrieved from NCBI will be used to search for prophages and fetch those prophage sequences or user specified regions in the genomic sequence. Then, these sequences are paired with the sequence of interest to be screened for binding partner(s) via ColabFold.
-
+1) Preprocessing: preparing input files (paired sequences) in batch for ColabFold
+2) Predictions: using ColabFold to predict models of monomer/multimer 
+3) Postprocessing: making figures to navigate virtual pull down results
 
 ## Install with `pip`
 
@@ -17,6 +14,7 @@ pip install git+https://github.com/heeropang/VirtualPullDown --upgrade --user
 ```
 
 <!-- Why it might be a good choice? -->
+preprocessing sequence input files for ColabFold. Genomic sequence retrieved from NCBI will be used to search for prophages and fetch those prophage sequences or user specified regions in the genomic sequence. Then, these sequences are paired with the sequence of interest to be screened for binding partner(s) via ColabFold.
 
 <!-- Minimal dependency -->
 
