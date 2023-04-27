@@ -65,7 +65,7 @@ create_mastertable(path, filename, prey_size_limit, bait_name)
 
 A master table keeps gene information.
 
-![Master table](./figures/mastertable.png)
+![Master table](./preprocessing/figures/mastertable.png)
 
 ### Apply the range of interest 
 The method `filter_prey_sequences` applies identified prophage or user-specified range and returns a filtered.xlsx table, gene sequences.
@@ -177,13 +177,13 @@ subprocess.call("echo Preprocessing is complete..\n", shell=True)
 subprocess.call("echo Input files saved in ready folder..\n", shell=True)
 ```
 if the prophage is not found, then the script will ask the user for manual inputs to specify the range of interest.
-![if prophage not found](./figures/manual_input.png)
+![if prophage not found](./preprocessing/figures/manual_input.png)
 
 if the prophage is found via Phaster, then the script will ask the user to proceed with or without manual inputs.
-![if prophage found](./figures/yn_input.png)
+![if prophage found](./preprocessing/figures/yn_input.png)
 
 Applying the prophage range found via Phaster
-![Applying the range](./figures/automatic_input.png)
+![Applying the range](./preprocessing/figures/automatic_input.png)
 
 2) Predictions: virtual pulldown
 # Sbatch scripts for structure predictions
@@ -361,7 +361,7 @@ result.save('result.png')
 ```
 Concatenated PAEs allow a quick comparison of PAE plots
 
-![PAE figure](./figures/Nm60_pae.png)
+![PAE figure](./postprocessing/figures/Nm60_pae.png)
 
 ### Plot pTM and ipTM values
 
@@ -448,5 +448,5 @@ subprocess.call(['gnuplot', '%s.gp'%(bait_name)])
 ```
 A scatter plot of pTM and ipTM values allows users to quickly identify the predicted complex model in the screening assay. 
 
-![pTM and ipTM plot](./figures/Nm60.png)
+![pTM and ipTM plot](./postprocessing/figures/Nm60.png)
 
