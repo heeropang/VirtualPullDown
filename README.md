@@ -15,7 +15,8 @@ pip install git+https://github.com/heeropang/VirtualPullDown
 
 <!-- Why it might be a good choice? -->
 <!-- Minimal dependency -->
-
+## Preprocessing
+preprocessing sequence input files for ColabFold. Genomic sequence retrieved from NCBI will be used to search for prophages and fetch those prophage sequences or user specified regions in the genomic sequence. Then, these sequences are paired with the sequence of interest to be screened for binding partner(s) via ColabFold
 ## Dependencies
 
 This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.heptapod.net/openpyxl/openpyxl).  
@@ -25,9 +26,6 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 ```Python
 import run
 ```
-1) Preprocessing
-preprocessing sequence input files for ColabFold. Genomic sequence retrieved from NCBI will be used to search for prophages and fetch those prophage sequences or user specified regions in the genomic sequence. Then, these sequences are paired with the sequence of interest to be screened for binding partner(s) via ColabFold
-
 ### Search for prophage
 
 The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
