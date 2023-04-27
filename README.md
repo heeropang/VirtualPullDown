@@ -9,7 +9,7 @@ This package contains three steps to streamline virtual pulldown experiments usi
 ## Install with `pip`
 
 ```
-pip clone https://github.com/heeropang/VirtualPullDown.git
+git clone https://github.com/heeropang/VirtualPullDown.git
 
 ```
 
