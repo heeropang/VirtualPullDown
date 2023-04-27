@@ -126,7 +126,7 @@ bait_name       = 'Sa34'                #Name of integrase
 accession_number= 'NZ_FJQW01000022.1'
 identify_prophage_region(accession_number)
 ```
-
+## Functions from the run module
 ### Create a master table to naviagate gene information
 
 The method `create_mastertable` returns a mastertable.xlsx with locus_tag, gene description, gene size, and location information.
