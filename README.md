@@ -264,12 +264,11 @@ colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
 
 <!-- What is this for? -->
 
-3) Postprocessing 
+## Postprocessing 
 postprocessing scripts for Alphafold output files return a scatter plot and figure to help users navigate the result quickly.
 
 <!-- Minimal dependency -->
 
-## Dependencies
 ### Rename output files
 a python script to rename output files from Alphafold
 ```Python
