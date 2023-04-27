@@ -20,7 +20,7 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 import run
 ```
 
-### One step preprocessing using template_auto.py
+### One shot preprocessing via template_auto.py
 The following example show how to acheive all the preprocessing steps with template_auto
 ```Python
 #!/usr/bin/env python
@@ -126,7 +126,7 @@ bait_name       = 'Sa34'                #Name of integrase
 accession_number= 'NZ_FJQW01000022.1'
 identify_prophage_region(accession_number)
 ```
-## Functions from the run module
+## Usages for each function
 ### Create a master table to naviagate gene information
 
 The method `create_mastertable` returns a mastertable.xlsx with locus_tag, gene description, gene size, and location information.
