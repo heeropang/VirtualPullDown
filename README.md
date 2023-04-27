@@ -14,8 +14,6 @@ pip install git+https://github.com/heeropang/VirtualPullDown --upgrade --user
 ```
 
 <!-- Why it might be a good choice? -->
-preprocessing sequence input files for ColabFold. Genomic sequence retrieved from NCBI will be used to search for prophages and fetch those prophage sequences or user specified regions in the genomic sequence. Then, these sequences are paired with the sequence of interest to be screened for binding partner(s) via ColabFold.
-
 <!-- Minimal dependency -->
 
 ## Dependencies
@@ -27,6 +25,8 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 ```Python
 import run
 ```
+###1) Preprocessing
+preprocessing sequence input files for ColabFold. Genomic sequence retrieved from NCBI will be used to search for prophages and fetch those prophage sequences or user specified regions in the genomic sequence. Then, these sequences are paired with the sequence of interest to be screened for binding partner(s) via ColabFold
 
 ### Search for prophage
 
@@ -188,7 +188,7 @@ Applying the prophage range found via Phaster
 # Sbatch scripts for structure predictions
 sbatch scripts for generating MSA and predicted files using localcolabfold
 <!-- What is this for? -->
-
+###2) Predictions: virtual pulldown 
 This is for submitting preprocessed sequence files in batch on slurm to generate multiple sequence alignments (MSA) and structure predictions using ['ColabFold'](https://github.com/sokrypton/ColabFold). 
 
 ### Before we start...
@@ -265,8 +265,7 @@ colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
 ```
 
 <!-- What is this for? -->
-
-## Get started with `postprocessing`
+###3) Postprocessing 
 postprocessing scripts for Alphafold output files return a scatter plot and figure to help users navigate the result quickly.
 
 <!-- Minimal dependency -->
