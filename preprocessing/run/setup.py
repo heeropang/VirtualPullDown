@@ -11,7 +11,7 @@ setuptools.setup(
     description="preprocessing input files for multimer predictions using localcolabfold",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/heeropang/run",
+    url="https://github.com/heeropang/VirtualPullDown/preprocessing/run",
     keywords=['Recombinase', 'prophage', 'alphafold'],
     packages=setuptools.find_packages(),
     classifiers=[
