@@ -1,7 +1,7 @@
 <!-- What is this for? -->
 
 ## Get started with `VirtualPullDown`
-This package contains three steps to streamline virtual pulldown experiments using ColabFold: 
+This package utilizes three steps to streamline the virtual pulldown experiment via ColabFold: 
 1) Preprocessing: preparing input files (paired sequences) in batch for ColabFold
 2) Predictions: using ColabFold to predict models of monomer/multimer 
 3) Postprocessing: making figures to navigate virtual pull down results
