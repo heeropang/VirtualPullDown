@@ -94,7 +94,6 @@ filenames       = sorted(glob.glob("./fa/"+"*.fa"))
 bait_name       = 'Sa34'                #Name of integrase
 combine_pairwise_batch(path, filenames, bait_name)
 ```
-Any of the methods listed above can be utilized separately in other scripts.
 
 ### One step preprocessing using template_auto.py
 The following example show how to acheive all the preprocessing steps with template_auto
