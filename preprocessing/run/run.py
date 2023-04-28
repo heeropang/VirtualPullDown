@@ -24,6 +24,39 @@ def convert_to_pdf(figures):
         else:
             raise ValueError('Unsupported file format: ' +ext)
 
+def rename_files(path):
+    new_names = []
+
+    # Get a list of files in the directory
+    files = os.listdir(path)
+
+    # Filter the files to get only the ones with .a3m extension
+    a3m_files = sorted([f for f in files if f.endswith(".a3m")])
+    a3m_files = sorted(a3m_files, key=lambda x: int(x.split(".")[0]))
+
+    # Get the second line of each a3m file and append it to the new_names list
+    for a3m_file in a3m_files:
+        with open(os.path.join(path, a3m_file), "r") as f:
+            lines = f.readlines()
+            second_line = lines[1]
+            new_names.append(second_line.split()[1])
+
+    # Create a dictionary to map the old filenames to the new names
+    name_dict = {}
+    for a3m_file, new_file in zip(a3m_files, new_names):
+        keyword = a3m_file.split(".")[0] + '_'
+        name_dict[keyword] = new_file
+
+    # Rename the files with the new names
+    for file in files:
+        # Check if file starts with any of the keys in name_dict
+        for key in name_dict.keys():
+            if file.startswith(key):
+                new_filename = file.replace(key, name_dict[key]+'_', 1)
+                # Rename the file
+                os.rename(os.path.join(path, file), os.path.join(path, new_filename))
+                break
+
 def plot_ptm_iptm(bait_name, title_offset, path, f_width, f_height, fontsize, margin_top, margin_bot, margin_left, margin_right, key_position):
     ptms=[]
     iptms=[]
