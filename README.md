@@ -1,7 +1,7 @@
 <!-- What is this for? -->
 **ColabFold** is a web-based, open-source platform that leverages deep learning models for protein folding and related tasks. It utilizes the power of artificial intelligence to predict protein structures, including multimeric complexes, with remarkable accuracy from their amino acid sequences. 
 
-A **pull-down** experiment is a *in-vitro* technique used to study protein-protein interactions, where a `bait` protein is immobilized on a solid support and `prey` proteins are screened for interaction with the bait protein. 
+A **Pull-down** experiment is a *in-vitro* technique used to study protein-protein interactions, where a `bait` protein is immobilized on a solid support and `prey` proteins are screened for interaction with the bait protein. 
 
 The `VirtualPulldown` approach combines the concept of pull-down experiments with computational protein structure prediction to provide economical and efficient ways to rapidly screen and study novel protein complexes. While this approach has great potential to accelerate progress in drug discovery and related fields, it is not without its potential disadvantages. As the accuracy of ColabFold's predictions is a crucial aspect of this approach, researchers must exercise careful evaluation and validation before the findings can be considered true protein complex structures. Nonetheless, the VirtualPulldown approach can provide additional information when utilized alongside conventional methods in bioinformatics and structure studies.. :thumbsup:
 
@@ -18,7 +18,6 @@ Further streamlining the process, the package offers a one-step post-processing 
 The overall process requires far less time compared to manual processing of scanning any number of genes, and is exponentially more efficient when handling large number of genes.
 Lastly, individual scripts can provide users flexibility to explore their ideas such as expanding proteoms to more than one organism or having multiple sequence of interests or known complex as baits.   
 
-<!-- Minimal dependency -->
 ## Preprocessing
 In this step, the sequence files are processed to be used as input files for ColabFold. The script utilizes the genomic protein sequence (i.e., sequence.txt) downloaded from NCBI and the protein sequence of interest (i.e., integrase.fasta).
 
@@ -30,7 +29,7 @@ Next, the script individually pairs the fetched protein sequences within the spe
 
 This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.heptapod.net/openpyxl/openpyxl), and --['run'](https://github.com/heeropang/VirtualPullDown/tree/main/preprocessing/run).  
 
-### :star: One step preprocessing with template_auto.py 
+### :star: One step preprocessing with `template_auto.py`
 The following example show how to acheive all the preprocessing steps with template_auto
 ```Python
 #!/usr/bin/env python
@@ -267,12 +266,10 @@ colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
 <!-- What is this for? -->
 
 ## Postprocessing 
-postprocessing scripts for Alphafold output files return a scatter plot and figure to help users navigate the result quickly.
-### :star: One step postprocessing with makefig_auto.py
-<!-- Minimal dependency -->
+postprocessing scripts for ColabFold output files return figures to facilitate navigation and interpretation of virtual pulldown results.
 
-### Rename output files
-a python script to rename output files from Alphafold
+### Rename output files to locus_tag
+a python script to rename output files from ColabFold
 ```Python
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -312,8 +309,61 @@ for file in files:
             os.rename(os.path.join(directory, file), os.path.join(directory, new_filename))
             break
 ```
-
+## Dependencies
 This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.readthedocs.io/en/stable/).
+
+### :star: One step postprocessing with `makefig_auto.py`
+
+```Python
+#!/usr/bin/env python
+"""
+Usage:        ./makefig_auto.py
+Author:       Heewhan Shin
+Author_email: hshin40@gmail.com
+Date:         April 28, 2023
+Description:  This script extracts pTM and ipTM values from output files and produces a scatter plot and concatenate all PAE plots.
+"""
+from run import concatenate_images, plot_ptm_iptm, convert_to_pdf
+import subprocess
+import os
+
+## Specify inputs
+###########################################################
+path            = "./"                  #Working directory
+bait_name       = 'Bt24'                #Name of integrase
+title_offset    = 2                     #Change number to adjust location of the title
+f_width         = 12                    #Figure width
+f_height        = 5                     #Figure height
+fontsize        = 10                    #Decrease the font and figure sizes or margins to fit a plot in a white space 
+margin_top      = 10                    
+margin_bot      = 10 
+margin_left     = 10
+margin_right    = 10
+key_position    = 'left'                # right, left, topleft, topright..etc
+###########################################################
+
+figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
+
+if os.path.isfile("%s_pae.png"%(bait_name)):
+    print("Concatenated %s_pae figure already exists.."%(bait_name))
+    print("Stopping process. Please check the figure..")
+    exit(1)
+
+##making PAE plots
+result = concatenate_images(path)
+result.save('%s_pae.png'%(bait_name))
+
+subprocess.call("echo pae plots are concatenated...", shell=True)
+subprocess.call("echo plotting pTM and iPTM values...\n", shell=True)
+
+##plotting ptm and iptm data
+plot_ptm_iptm(bait_name, title_offset, path, f_width, f_height, fontsize, margin_top, margin_bot, margin_left, margin_right, key_position)
+subprocess.call("echo pTM, iPTM values are plotted...\n", shell=True)
+subprocess.call("echo converting eps to pdf...",shell=True)
+
+convert_to_pdf(figures)
+```
+
 ### Concetanate PAE plots
 
 The following code snippet concatenate all PAE plots in the project directory and returns one figure.  
