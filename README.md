@@ -186,7 +186,7 @@ combine_pairwise_batch(path, filenames, bait_name)
 ```
 
 ## Sbatch scripts for structure predictions
-sbatch scripts for generating MSA and predicted files using localcolabfold
+sbatch scripts for generating MSA and predicted files using local ColabFold
 <!-- What is this for? --> 
 This is for submitting preprocessed sequence files in batch on slurm to generate multiple sequence alignments (MSA) and structure predictions using ['ColabFold'](https://github.com/sokrypton/ColabFold). 
 
@@ -268,7 +268,7 @@ colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
 ## Postprocessing 
 postprocessing scripts for ColabFold output files return figures to facilitate navigation and interpretation of virtual pulldown results.
 
-### Rename output files to locus_tag
+### Renaming output files to locus_tag
 a python script to rename output files from ColabFold
 ```Python
 #!/usr/bin/env python3
@@ -312,7 +312,7 @@ for file in files:
 ## Dependencies
 This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.readthedocs.io/en/stable/).
 
-### :star: One step postprocessing with `makefig_auto.py`
+### :star: One step post-processing with `makefig_auto.py`
 
 ```Python
 #!/usr/bin/env python
@@ -456,11 +456,10 @@ f"{i.split('.fa_pair_scores_rank')[0][2:]+'_'+i.split('.fa_pair_scores_rank_00')
 for data in pae_data:
     gnu_data.append(data.replace('_','.'))
 
-
 # Plot the graph using gnuplot
 with open('%s.gp'%(bait_name), 'w') as f:
     # Define the plot settings
-    f.write('set term x11"\n')
+    f.write('set term x11\n')
     f.write('set tmargin %d\n'%(margin_top))
     f.write('set bmargin %d\n'%(margin_bot))
     f.write('set lmargin %d\n'%(margin_left))
@@ -498,4 +497,5 @@ subprocess.call(['gnuplot', '%s.gp'%(bait_name)])
 A scatter plot of pTM and ipTM values allows users to quickly identify the predicted complex model in the screening assay. 
 
 ![pTM and ipTM plot](./postprocessing/figures/Nm60.png)
+
 
