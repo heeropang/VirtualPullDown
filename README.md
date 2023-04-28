@@ -316,7 +316,7 @@ for file in files:
 This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.readthedocs.io/en/stable/).
 
 ### :star: One step post-processing with `makefig_auto.py`
-
+The code returns a concatenated figure of PAE and plots of pTM and ipTM.
 ```Python
 #!/usr/bin/env python
 """
@@ -497,9 +497,8 @@ with open('%s.gp'%(bait_name), 'w') as f:
 # Call gnuplot to create the graph
 subprocess.call(['gnuplot', '%s.gp'%(bait_name)])
 ```
-A scatter plot of pTM and ipTM values allows users to quickly identify the predicted complex model in the screening assay. 
+A plot of pTM and ipTM values allows users to quickly navigate and interpret the results. 
 
 ![pTM and ipTM plot](./postprocessing/figures/Nm60.png)
 
-## Acknowledgments
 
