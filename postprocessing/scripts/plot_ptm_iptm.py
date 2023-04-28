@@ -40,7 +40,7 @@ for data in pae_data:
 # Plot the graph using gnuplot
 with open('%s.gp'%(bait_name), 'w') as f:
     # Define the plot settings
-    f.write('set term x11"\n')
+    f.write('set term x11\n')
     f.write('set tmargin %d\n'%(margin_top))
     f.write('set bmargin %d\n'%(margin_bot))
     f.write('set lmargin %d\n'%(margin_left))
