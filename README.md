@@ -26,7 +26,7 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 import run
 ```
 
-### One shot preprocessing via template_auto.py
+### :star: One shot preprocessing via template_auto.py 
 The following example show how to acheive all the preprocessing steps with template_auto
 ```Python
 #!/usr/bin/env python
