@@ -3,7 +3,7 @@ ColabFold is a web-based, open-source platform that provides access to deep lear
 
 A pull-down experiment is a *in-vitro* technique used to study protein-protein interactions, where a bait protein is immobilized on a solid support and a prey protein is allowed to interact with it. The interacting proteins are then specifically bound to the bait protein, eluted and analyzed to identify the prey proteins.
 
-Combining the concept of pull-down experiments with computational protein structure prediction using the ColabFold platform, hence the ``virtual pull-down``
+Combining the concept of pull-down experiments with computational protein structure prediction using the ColabFold platform, hence the `VirtualPulldown`
 The ability to rapidly screen for novel protein complexes has great potential to revolutionize the field of structural biology and accelerate progress in drug discovery and related fields. 
 
 ## Get started with `VirtualPullDown`
