@@ -330,7 +330,7 @@ convert_to_pdf(figures)
 
 ```
 --------------------------------------
-##:asterisk: Below are examples of each function
+## :asterisk: Below are examples of each function
 ### Renaming output files to locus_tag
 a python script to rename output files from ColabFold
 ```Python
