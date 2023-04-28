@@ -1,4 +1,4 @@
-# Introduction to `VirtualPullDown`
+# Introduction to `VirtualPullDown` package
 <!-- What is this for? -->
 **ColabFold** is a web-based, open-source platform that leverages deep learning models for protein folding and related tasks. It utilizes the power of artificial intelligence to predict protein structures, including multimeric complexes, with remarkable accuracy from their amino acid sequences. 
 
@@ -6,7 +6,7 @@ A **Pull-down** experiment is a *in-vitro* technique used to study protein-prote
 
 The `VirtualPulldown` approach combines the concept of pull-down experiments with computational protein structure prediction to provide economical and efficient ways to rapidly screen and study novel protein complexes. While this approach has great potential to accelerate progress in drug discovery and related fields, it is not without its potential disadvantages. As the accuracy of ColabFold's predictions is a crucial aspect of this approach, researchers must exercise careful evaluation and validation before the findings can be considered true protein complex structures. Nonetheless, the VirtualPulldown approach can provide additional information when utilized alongside conventional methods in bioinformatics and structure studies.. :thumbsup:
 
-## Getting started with `VirtualPullDown` package
+## Getting started with *VirtualPullDown*
 This package streamlines the virtual pulldown experiment through ColabFold by utilizing three steps:
 1.  Pre-processing: efficiently preparing input files (paired sequences) in batch for ColabFold
 2.  Prediction: utilizing local ColabFold to predict models of monomer/multimer
