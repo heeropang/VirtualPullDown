@@ -119,7 +119,7 @@ if the prophage is found via Phaster, then the script will ask the user to proce
 Applying the prophage range found via Phaster
 ![Applying the range](./preprocessing/figures/automatic_input.png)
 --------------------------------------------
-##:asterisk: Below are examples of each function
+## :asterisk: Below are examples of each function
 ### Search for prophage
 
 The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
