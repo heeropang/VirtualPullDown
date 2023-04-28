@@ -2,12 +2,112 @@
 # -*- coding: utf-8 -*-
 import os, sys
 from os.path import join
-import sys
 import re
 import subprocess
 import glob
 from Bio import SeqIO
 from openpyxl import Workbook
+import glob
+from PIL import Image, ImageDraw, ImageFont
+import json
+import numpy as np
+
+def convert_to_pdf(figures):
+    for figure in figures:
+        ext=os.path.splitext(figure)[1]
+        if ext == '.eps':
+            output_file = os.path.splitext(figure)[0]+'.pdf'
+            subprocess.call(['ps2pdf','-dEPSCrop', figure, output_file])
+        elif ext == '.png':
+            output_file = os.path.splitext(figure)[0]+'.pdf'
+            subprocess.call(['convert', figure, output_file])
+        else:
+            raise ValueError('Unsupported file format: ' +ext)
+
+def plot_ptm_iptm(bait_name, title_offset, path, f_width, f_height, fontsize, margin_top, margin_bot, margin_left, margin_right, key_position):
+    ptms=[]
+    iptms=[]
+    pae_data=[]
+    gnu_data=[]
+    json_files = glob.glob(f'{path}*_seed_000.json')
+    for json_file in sorted(json_files):
+        with open (json_file) as f:
+            data=json.load(f)
+            ptms.append(data['ptm'])
+            iptms.append(data['iptm'])
+    for i, p, ip in zip(sorted(json_files), ptms, iptms):
+        pae_data.append(\
+    f"{i.split('.fa_pair_scores_rank')[0][2:]+'_'+i.split('.fa_pair_scores_rank_00')[1][:1]} {p:.2f} {ip:.2f}")
+    
+    for data in pae_data:
+        gnu_data.append(data.replace('_','.'))
+    
+    
+    # Plot the graph using gnuplot
+    with open('%s.gp'%(bait_name), 'w') as f:
+        # Define the plot settings
+        f.write('set term x11\n')
+        f.write('set tmargin %d\n'%(margin_top))
+        f.write('set bmargin %d\n'%(margin_bot))
+        f.write('set lmargin %d\n'%(margin_left))
+        f.write('set rmargin %d\n'%(margin_right))
+        f.write('set title "%s alphafold pulldown" font "Helvetica-Bold, 18" offset 0,%d \n'%(bait_name,title_offset))
+        f.write('set xlabel "predicted models"\n')
+        f.write('set ylabel "pTM and ipTM values"\n')
+        f.write('set key %s\n'%(key_position))
+        f.write('set xtics rotate by -45\n')
+        f.write('set key box lt -1 lw 2\n')
+        f.write('set x2tics out\n')
+        f.write('set x2tics rotate by 45\n')
+        f.write('set grid xtics\n')
+        f.write('set grid x2tics\n')
+        f.write('set terminal postscript eps enhanced color solid "Helvetica" %d size %d,%d\n'%(fontsize, f_width, f_height))
+        f.write('set output "%s.eps"\n'%(bait_name))
+        # Plot the data
+        f.write('plot "-" u 1:3:4:xticlabels(2) w p pt 7 lc rgb "red" notitle, "-" u 1:3:4:x2ticlabel(2) w p pt 7 lc rgb "red" notitle, "-" u 1:4 w lp pt 7 lc rgb "blue" t "ipTM", "-" u 1:3 w lp pt 7 lc rgb "red" t "pTM" \n')
+        
+        for i in range(0,len(gnu_data),2):
+            f.write('{} {}\n'.format(i+1,gnu_data[i]))
+        f.write('e\n')
+        for i in range(1,len(gnu_data),2): 
+            f.write('{} {}\n'.format(i+1,gnu_data[i]))
+        f.write('e\n')
+        for i in range(len(gnu_data)):
+            f.write('{} {}\n'.format(i+1,gnu_data[i]))
+        f.write('e\n')
+        for i in range(len(gnu_data)):
+            f.write('{} {}\n'.format(i+1,gnu_data[i]))
+        f.write('e\n')
+    # Call gnuplot to create the graph
+    subprocess.call(['gnuplot', '%s.gp'%(bait_name)])
+
+def concatenate_images(path):
+    # Get all PNG files in the directory
+    image_files = glob.glob(f'{path}*pae.png')
+
+    # Open all images
+    images = [Image.open(img) for img in sorted(image_files)]
+
+    # Get dimensions of the first image
+    width, height = images[0].size
+
+    # Create a new image with the same width and the combined height of all images
+    result = Image.new('RGB', (width, height * len(images)), color='white')
+
+    # Paste each image into the result image vertically
+    for i, img in enumerate(images):
+        result.paste(img, (0, i * height))
+
+    # Add a title to each image
+    title_font = ImageFont.load_default()
+    draw = ImageDraw.Draw(result)
+    title_font_size = 24
+    for i, img_file in enumerate(image_files):
+        label = os.path.basename(img_file)
+        label_width, label_height = draw.textsize(label, font=title_font)
+        draw.text((0, i * height), label, font=title_font, fill=(0, 0, 0))
+
+    return result
 
 def combine_pairwise_batch(path, filenames, bait_name):
     filenames   = sorted(glob.glob("./fa/"+"*.fa"))
