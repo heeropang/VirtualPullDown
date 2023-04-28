@@ -33,7 +33,7 @@ Next, the script individually pairs the fetched protein sequences within the spe
 This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.heptapod.net/openpyxl/openpyxl), and --['run'](https://github.com/heeropang/VirtualPullDown/tree/main/preprocessing/run).  
 
 ### :star: One step preprocessing with `template_auto.py`
-The following example show how to acheive all the preprocessing steps with template_auto
+`template_auto.py` combines searching prophage region, organizing proteoms, fetching protein sequences, preparing paired input files for ColabFold
 ```Python
 #!/usr/bin/env python
 
@@ -118,7 +118,8 @@ if the prophage is found via Phaster, then the script will ask the user to proce
 
 Applying the prophage range found via Phaster
 ![Applying the range](./preprocessing/figures/automatic_input.png)
-
+--------------------------------------------
+Below are examples of each function
 ### Search for prophage
 
 The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
@@ -265,7 +266,7 @@ nvidia-smi
 
 colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
 ```
-
+----------------------------------------------------
 <!-- What is this for? -->
 
 ## Postprocessing 
@@ -284,7 +285,7 @@ Author_email: hshin40@gmail.com
 Date:         April 28, 2023
 Description:  This script extracts pTM and ipTM values from output files and produces a scatter plot and concatenate all PAE plots.
 """
-from run import concatenate_images, plot_ptm_iptm, convert_to_pdf
+from run import concatenate_images, plot_ptm_iptm, convert_to_pdf, rename_files
 import subprocess
 import os
 
@@ -302,6 +303,8 @@ margin_left     = 10
 margin_right    = 10
 key_position    = 'left'                # right, left, topleft, topright..etc
 ###########################################################
+
+rename_files(path)
 
 figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
@@ -322,9 +325,12 @@ plot_ptm_iptm(bait_name, title_offset, path, f_width, f_height, fontsize, margin
 subprocess.call("echo pTM, iPTM values are plotted...\n", shell=True)
 subprocess.call("echo converting eps to pdf...",shell=True)
 
+##converting figures to pdf
 convert_to_pdf(figures)
+
 ```
 --------------------------------------
+Below are examples of each function
 ### Renaming output files to locus_tag
 a python script to rename output files from ColabFold
 ```Python
