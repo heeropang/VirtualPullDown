@@ -186,8 +186,8 @@ bait_name       = 'Sa34'                #Name of integrase
 combine_pairwise_batch(path, filenames, bait_name)
 ```
 
-## Sbatch scripts for structure predictions
-sbatch scripts for generating MSA and predicted files using local ColabFold
+## Using ColabFold for structure predictions
+sbatch scripts are submitted for generating MSA and predicted files using local ColabFold
 <!-- What is this for? --> 
 This is for submitting preprocessed sequence files in batch on slurm to generate multiple sequence alignments (MSA) and structure predictions using ['ColabFold'](https://github.com/sokrypton/ColabFold). 
 
