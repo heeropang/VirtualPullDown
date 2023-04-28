@@ -6,7 +6,7 @@ Author_email: hshin40@gmail.com
 Date:         April 28, 2023
 Description:  This script extracts pTM and ipTM values from output files and produces a scatter plot and concatenate all PAE plots.
 """
-from run import concatenate_images, plot_ptm_iptm, convert_to_pdf
+from run import concatenate_images, plot_ptm_iptm, convert_to_pdf, rename_files
 import subprocess
 import os
 
@@ -24,6 +24,8 @@ margin_left     = 10
 margin_right    = 10
 key_position    = 'left'                # right, left, topleft, topright..etc
 ###########################################################
+
+rename_files(path)
 
 figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
