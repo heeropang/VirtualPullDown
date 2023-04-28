@@ -20,12 +20,6 @@ To do so, the bait sequence is individually paired with prey sequences to be use
 
 This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.heptapod.net/openpyxl/openpyxl), and --['run'](https://github.com/heeropang/VirtualPullDown/tree/main/preprocessing/run).  
 
-### Import the module 
-
-```Python
-import run
-```
-
 ### :star: One shot preprocessing via template_auto.py 
 The following example show how to acheive all the preprocessing steps with template_auto
 ```Python
