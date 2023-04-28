@@ -11,7 +11,8 @@ This package streamlines the virtual pulldown experiment through ColabFold by ut
 1.  Pre-processing: efficiently preparing input files (paired sequences) in batch for ColabFold
 2.  Prediction: utilizing local ColabFold to predict models of monomer/multimer
 3.  Post-processing: generating figures to facilitate navigation and interpretation of virtual pulldown results.
-
+------------------
+Why it might be a good choice?
 <!-- Why it might be a good choice? -->
 * This package offers a :star: one-step pre-processing solution for users to efficiently prepare any number of sequence files for virtual pulldown in seconds. 
 * We utilize local ColabFold for batch protein structure prediction, eliminating concerns of time-out and GPU limitations. 
