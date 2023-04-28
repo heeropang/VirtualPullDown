@@ -174,7 +174,7 @@ A filtered table keeps track of which sequences are fetched and skipped.
 ![Filtered table](./figures/filtered.png)
 
 ### Pair sequences to be screened to the sequence of interest
-The method `combine_pairwise_batch` returns paired sequences in fasta format (seq1:seq2, seq1:seq3,...,seq1:seqn) to to be used as input files for Alphafold.
+The method `combine_pairwise_batch` returns paired sequences in fasta format (seq1:seq2, seq1:seq3,...,seq1:seqn) to to be used as input files for ColabFold.
 The following example show how to achieve it using combine_pairwise_batch
 
 ```Python
@@ -415,7 +415,7 @@ Concatenated PAEs allow a quick comparison of PAE plots
 
 ### Plot pTM and ipTM values
 
-The method `plot_ptm_iptm` fetches pTM and ipTM values from json files of Alphafold output and use gnuplot to plot the values.
+The method `plot_ptm_iptm` fetches pTM and ipTM values from json files of ColabFold output and use gnuplot to plot the values.
 
 ```Python
 #!/usr/bin/env python3
