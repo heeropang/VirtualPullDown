@@ -5,22 +5,27 @@ A **pull-down** experiment is a *in-vitro* technique used to study protein-prote
 
 The `VirtualPulldown` approach combines the concept of pull-down experiments with computational protein structure prediction to provide economical and efficient ways to rapidly screen and study novel protein complexes. While this approach has great potential to accelerate progress in drug discovery and related fields, it is not without its potential disadvantages. As the accuracy of ColabFold's predictions is a crucial aspect of this approach, researchers must exercise careful evaluation and validation before the findings can be considered true protein complex structures. Nonetheless, the VirtualPulldown approach can provide additional information when utilized alongside conventional methods in bioinformatics and structure studies.. :thumbsup:
 
-## Get started with `VirtualPullDown`
-This package utilizes three steps to streamline the virtual pulldown experiment via ColabFold: 
-1) Preprocessing: preparing input files (paired sequences) in batch for ColabFold
-2) Predictions: using ColabFold to predict models of monomer/multimer 
-3) Postprocessing: making figures to navigate virtual pull down results
+## Getting started with `VirtualPullDown`
+This package streamlines the virtual pulldown experiment through ColabFold by utilizing three steps:
+1.  Pre-processing: efficiently preparing input files (paired sequences) in batch for ColabFold
+2.  Prediction: utilizing local ColabFold to predict models of monomer/multimer
+3.  Post-processing: generating figures to facilitate navigation and interpretation of virtual pulldown results.
 
 <!-- Why it might be a good choice? -->
-This package provides one step preprocessing for user to prepare any number of sequence files for virtual pull down.
+This package offers a one-step pre-processing solution for users to efficiently prepare any number of sequence files for virtual pulldown in seconds. 
+We utilize local ColabFold for batch protein structure prediction, eliminating concerns of time-out and GPU limitations. Using ColabFold also requires less database storage compared to native AlphaFold2.
+Further streamlining the process, the package offers a one-step post-processing feature that generates figures to help users quickly navigate the results. 
+The overall process requires far less time compared to manual processing of scanning any number of genes, and is exponentially more efficient when handling large number of genes.
+Lastly, individual scripts can provide users flexibility to explore their ideas such as expanding proteoms to more than one organism or having multiple sequence of interests or known complex as baits.   
+
 <!-- Minimal dependency -->
 ## Preprocessing
-In this step, sequence files are processed to be used as input files for ColabFold. 
-Genomic protein sequence (i.e. sequence.txt) downloaded from NCBI, protein sequence of interest (i.e. integrase.fasta) will be used in the script.
-The template_auto.py will first search for prophages using Phaster.ca and apply those region (if found) to fetch the sequences (upon user's consent); 
-Otherwise, the script will ask the user to specify the region of interest in the genomic sequence. 
-Then, those fetched protein sequences within the specified region will be screened (as prey sequences) to the sequence of interest (as a bait sequence). 
-To do so, the bait sequence is individually paired with prey sequences to be used for screening binding partner(s) via ColabFold.
+In this step, the sequence files are processed to be used as input files for ColabFold. The script utilizes the genomic protein sequence (i.e., sequence.txt) downloaded from NCBI and the protein sequence of interest (i.e., integrase.fasta).
+
+The template_auto.py script first searches for prophages using Phaster.ca and fetches those regions (if found) upon user consent. Otherwise, the script prompts the user to specify the region of interest in the genomic sequence.
+
+Next, the script individually pairs the fetched protein sequences within the specified region (as prey sequences) with the sequence of interest (as a bait sequence).
+
 ## Dependencies
 
 This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.heptapod.net/openpyxl/openpyxl), and --['run'](https://github.com/heeropang/VirtualPullDown/tree/main/preprocessing/run).  
@@ -134,8 +139,7 @@ identify_prophage_region(accession_number)
 ## Usages for each function
 ### Create a master table to naviagate gene information
 
-The method `create_mastertable` returns a mastertable.xlsx with locus_tag, gene description, gene size, and location information.
-The following example shows how to achieve it using create_mastertable.
+The method create_mastertable returns a master table in the form of an Excel file (mastertable.xlsx) containing locus_tag, gene description, gene size, and location information. The following code snippet shows how to generate the master table using create_mastertable.
 
 ```Python
 # Create a master table ...
@@ -264,7 +268,7 @@ colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
 
 ## Postprocessing 
 postprocessing scripts for Alphafold output files return a scatter plot and figure to help users navigate the result quickly.
-
+### :star: One step postprocessing with makefig_auto.py
 <!-- Minimal dependency -->
 
 ### Rename output files
