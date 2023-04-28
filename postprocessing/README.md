@@ -13,25 +13,22 @@ a python script to rename output files from Alphafold
 # -*- coding: utf-8 -*-
 import os
 
-new_names=[
-    "FS868_RS17480.fa_pair",
-    "FS868_RS17485.fa_pair",
-    "FS868_RS17490.fa_pair",
-    "FS868_RS17495.fa_pair",
-    "FS868_RS17500.fa_pair",
-    "FS868_RS17505.fa_pair",
-  ##rest of the files
-]
+new_names=[]
 
 # Directory containing the files
-directory = "./"
+path = "./"
 
 # Get a list of files in the directory
-files = os.listdir(directory)
-
+files = os.listdir(path)
+##
 # Filter the files to get only the ones with .a3m extension
 a3m_files = sorted([f for f in files if f.endswith(".a3m")])
 a3m_files = sorted(a3m_files, key=lambda x: int(x.split(".")[0]))
+for a3m_file in a3m_files:
+    with open(a3m_file, "r") as f:
+        lines=f.readlines()
+        second_line =lines[1]
+        new_names.append(second_line.split( )[1])
 
 # Iterate over the a3m files and rename the corresponding files with the new names
 name_dict = {}
@@ -44,7 +41,7 @@ for file in files:
         if file.startswith(key):
             new_filename = file.replace(key, name_dict[key]+'_',1)
             #rename
-            os.rename(os.path.join(directory, file), os.path.join(directory, new_filename))
+            os.rename(os.path.join(path, file), os.path.join(path, new_filename))
             break
 ```
 
