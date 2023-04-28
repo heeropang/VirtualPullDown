@@ -13,12 +13,12 @@ This package streamlines the virtual pulldown experiment through ColabFold by ut
 3.  Post-processing: generating figures to facilitate navigation and interpretation of virtual pulldown results.
 
 <!-- Why it might be a good choice? -->
-This package offers a :star: one-step pre-processing solution for users to efficiently prepare any number of sequence files for virtual pulldown in seconds. 
-We utilize local ColabFold for batch protein structure prediction, eliminating concerns of time-out and GPU limitations. 
-Using ColabFold also requires less database storage compared to native AlphaFold2.
-Further streamlining the process, the package offers a :star: one-step post-processing feature that generates figures to help users quickly navigate the results. 
-The overall process requires far less time compared to manual processing of scanning any number of genes, and is exponentially more efficient when handling large number of genes.
-Lastly, individual scripts can provide users flexibility to explore their ideas such as expanding proteoms to more than one organism or having multiple sequence of interests or known complex as baits.   
+* This package offers a :star: one-step pre-processing solution for users to efficiently prepare any number of sequence files for virtual pulldown in seconds. 
+* We utilize local ColabFold for batch protein structure prediction, eliminating concerns of time-out and GPU limitations. 
+* Using ColabFold also requires less database storage compared to native AlphaFold2.
+* The package offers a :star: one-step post-processing feature that generates figures to help users quickly navigate the results. 
+* The overall process requires far less time compared to manual processing of scanning any number of genes, and is exponentially more efficient when handling large number of genes.
+* Individual scripts can provide users flexibility to explore their ideas such as expanding proteoms to more than one organism or having multiple sequence of interests or known complex as baits.   
 
 ## Preprocessing
 In this step, the sequence files are processed to be used as input files for ColabFold. The script utilizes the genomic protein sequence (i.e., sequence.txt) downloaded from NCBI and the protein sequence of interest (i.e., integrase.fasta).
