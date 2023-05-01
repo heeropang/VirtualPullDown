@@ -152,7 +152,7 @@ Applying the prophage range found via Phaster...
 --------------------------------------------
 ## :asterisk: Examples for each function
 <details>
-   <summary> Here </summary>
+   <summary> Click here </summary>
    ### Search for prophage
 
    The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
