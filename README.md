@@ -144,6 +144,8 @@ Here are the two ways you can run the script...
    ```
 </details>
 
+------------------
+
 If the prophage is not found, then the script will ask the user for manual inputs to specify the range of interest...
 ![if prophage not found](./preprocessing/figures/manual_input.png)
 
@@ -156,7 +158,7 @@ Applying the prophage range found via Phaster...
 --------------------------------------------
 ## :asterisk: Examples for each function
 <details>
-   <summary> :rocket: Click here </summary>
+   <summary> :rocket: Click here for the python script </summary>
    ### Search for prophage
 
    The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
@@ -242,7 +244,7 @@ Finally, we need to compile GPU supporting ['Jax'](https://github.com/markusschm
 ### Bash script to make project directories
 Preprocessed fasta sequences will be stored in ready directory
 <details>
-   <summary> :rocket: Click here</summary>
+   <summary> :rocket: Click here for the python script </summary>
    ```Bash
    #!/bin/bash
    echo "setting up directories for $1 integrase"
@@ -257,7 +259,7 @@ Preprocessed fasta sequences will be stored in ready directory
 ### SBATCH script for generating MSA files
 The following script returns MSA (.a3m) files in the msas and log files in the log directory
 <details>
-   <summary>Click here</summary>
+   <summary> :rocket: Click here for the python script </summary>
    ```Bash
    #!/bin/bash
    #SBATCH --job-name=msa_search
@@ -400,7 +402,7 @@ figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
 ## :asterisk: Examples for each function
 <details>
-   <summary> :rocket: Click here </summary>
+   <summary> :rocket: Click here for the python script </summary>
 
    ### Renaming output files to locus_tag
    a python script to rename output files from ColabFold
@@ -491,7 +493,7 @@ Running the script will produce concatenated PAE plot below, which allow a quick
 ![PAE figure](./postprocessing/figures/Nm60_pae.png)
 
 <details>
-   <summary> :rocket: Click here </summary>
+   <summary> :rocket: Click here for the python script </summary>
    ### Plot pTM and ipTM values
 
    The method `plot_ptm_iptm` fetches pTM and ipTM values from json files of ColabFold output and use gnuplot to plot the values.
