@@ -140,14 +140,15 @@ subprocess.call("mv fa/*.fasta ready/", shell=True)
 subprocess.call("echo Preprocessing is complete..\n", shell=True)
 subprocess.call("echo Input files saved in ready folder..\n", shell=True)
 ```
-if the prophage is not found, then the script will ask the user for manual inputs to specify the range of interest.
+If the prophage is not found, then the script will ask the user for manual inputs to specify the range of interest.
 ![if prophage not found](./preprocessing/figures/manual_input.png)
 
-if the prophage is found via Phaster, then the script will ask the user to proceed with or without manual inputs.
+If the prophage is found via Phaster, then the script will ask the user to proceed with or without manual inputs.
 ![if prophage found](./preprocessing/figures/yn_input.png)
 
 Applying the prophage range found via Phaster
 ![Applying the range](./preprocessing/figures/automatic_input.png)
+
 --------------------------------------------
 ## :asterisk: Here are examples of each function below
 ### Search for prophage
