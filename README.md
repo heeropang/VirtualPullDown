@@ -35,7 +35,7 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 ### :star: One step preprocessing with `template_auto.py`
 `template_auto.py` combines searching prophage region, organizing proteoms, fetching protein sequences, preparing paired input files for ColabFold
 
-Here's how you run the script.
+Here are two ways you can run the script...
 ![example](./preprocessing/figures/command_template_auto.png)
 
 ```Python
@@ -308,8 +308,9 @@ This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.
 ### :star: One step post-processing with `makefig_auto.py`
 The code returns a concatenated figure of PAE and plots of pTM and ipTM.
 
-Here's how you run the script.
+Here are two ways you can run the script...
 ![example](./postprocessing/figures/command_makefig_auto.png)
+
 ```Python
 #!/usr/bin/env python
 """
@@ -375,6 +376,7 @@ subprocess.call("echo converting eps to pdf...",shell=True)
 ##converting figures to pdf
 convert_to_pdf(figures)
 ```
+
 --------------------------------------
 ## :asterisk: Here are examples of each function below
 ### Renaming output files to locus_tag
