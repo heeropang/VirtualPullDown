@@ -37,12 +37,7 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 
 Here are the two ways you can run the script...
 ![example](./preprocessing/figures/command_template_auto.png)
-
-<details>
-   <summary>Click me</summary>
-   ###Python codes
-</details>
-
+   
 ```Python
 #!/usr/bin/env python
 """
@@ -51,15 +46,14 @@ Author:       Heewhan Shin
 Author_email: hshin40@gmail.com
 Date:         April 25, 2023
 Description:  This script identifies prophages (if any) then produces paired input sequence files for multimer predictions using localcolabfold.
-"""
-
+""" 
 from run import create_mastertable, identify_prophage_region, filter_prey_sequences, combine_pairwise_batch
 import subprocess
 import glob
 import os
 import sys
 import argparse
-
+ 
 ## Specify inputs
 ###########################################################
 path            = "./"                  #Working directory
@@ -86,7 +80,7 @@ else:
     print("Using the following inputs found in the script...")
     print(f"Name of integrase: {bait_name}")
     print(f"Accession number of the genomic sequence: {accession_number}")
-
+ 
 ## Checking prerequisite files
 if not os.path.isfile("%s.txt"%(filename)):
     print("Error: please check if the genomic sequence is saved in the directory")
@@ -97,22 +91,22 @@ if not os.path.isfile("%s.fasta"%(bait_name)):
 if not os.path.isfile("%s_bait_truncated.fasta"%(bait_name)):
     print("Error: %s_bait_truncated.fasta does not exist\n"%(bait_name))
     exit(1)
-
+ 
 ## Fixing the genomic sequence formatting issue if it exists
 sed_cmd = "sed -e 's/\[db_xref=[^]]*\] //g' sequence.txt >sequence_check.txt"
 subprocess.call(sed_cmd, shell=True)
-
+   
 ## Preparing subdirectories
 subprocess.call("mkdir fa ready", shell=True)
 subprocess.call("rm fa/*", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
 subprocess.call("rm ready/*", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
 range           = 'range.txt'
 filenames       = sorted(glob.glob("./fa/"+"*.fa"))
-
+   
 ## create mastertable
 create_mastertable(path, filename, prey_size_limit, bait_name)
 subprocess.call("echo Searching for prophage using Phaster..\n", shell=True)
-
+   
 ## Search prophage
 identify_prophage_region(accession_number)
 
@@ -135,16 +129,17 @@ else:
     print("Prophages not identified. Proceed with manual input of the range.")
     filter_start = int(input("Enter the range start: "))
     filter_end   = int(input("Enter the range end: "))
-
+   
 # Filter prey sequences
 filter_prey_sequences(path, filename, prey_size_limit, bait_name, filter_start, filter_end)
 subprocess.call("mv ./*.fa fa/", shell=True)
-
+   
 combine_pairwise_batch(path, filenames, bait_name)
 subprocess.call("mv fa/*.fasta ready/", shell=True)
 subprocess.call("echo Preprocessing is complete..\n", shell=True)
 subprocess.call("echo Input files saved in ready folder..\n", shell=True)
 ```
+
 If the prophage is not found, then the script will ask the user for manual inputs to specify the range of interest...
 ![if prophage not found](./preprocessing/figures/manual_input.png)
 
@@ -155,74 +150,78 @@ Applying the prophage range found via Phaster...
 ![Applying the range](./preprocessing/figures/automatic_input.png)
 
 --------------------------------------------
-## :asterisk: Here are examples of each function below
-### Search for prophage
+## :asterisk: Examples for each function
+<details>
+   <summary> Here </summary>
+   ### Search for prophage
 
-The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
+   The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
 
-```Python
-from run import identify_prophage_region
-import re
-import subprocess
-import sys
-from Bio import SeqIO
-from os.path import join
-from openpyxl import Workbook
-path            = "./"                  #Working directory
-filename        = 'sequence'            #Genomic sequence
-prey_size_limit = 400                   #Residue size
-bait_name       = 'Sa34'                #Name of integrase
-accession_number= 'NZ_FJQW01000022.1'
-identify_prophage_region(accession_number)
-```
-### Create a master table to naviagate gene information
+   ```Python
+   from run import identify_prophage_region
+   import re
+   import subprocess
+   import sys
+   from Bio import SeqIO
+   from os.path import join
+   from openpyxl import Workbook
+   path            = "./"                  #Working directory
+   filename        = 'sequence'            #Genomic sequence
+   prey_size_limit = 400                   #Residue size
+   bait_name       = 'Sa34'                #Name of integrase
+   accession_number= 'NZ_FJQW01000022.1'
+   identify_prophage_region(accession_number)
+   ```
+   ### Create a master table to naviagate gene information
 
-The method create_mastertable returns a master table in the form of an Excel file (mastertable.xlsx) containing locus_tag, gene description, gene size, and location information. The following code snippet shows how to generate the master table using create_mastertable.
+   The method create_mastertable returns a master table in the form of an Excel file (mastertable.xlsx) containing locus_tag, gene description, gene size, and location information. The following code snippet shows how to generate the master table using create_mastertable.
 
-```Python
-# Create a master table ...
-from run import create_mastertable 
-path            = "./"                  #Working directory
-filename        = 'sequence'            #Genomic sequence
-prey_size_limit = 400                   #Residue size
-bait_name       = 'Sa34'                #Name of integrase
-create_mastertable(path, filename, prey_size_limit, bait_name)
-```
+   ```Python
+   # Create a master table ...
+   from run import create_mastertable 
+   path            = "./"                  #Working directory
+   filename        = 'sequence'            #Genomic sequence
+   prey_size_limit = 400                   #Residue size
+   bait_name       = 'Sa34'                #Name of integrase
+   create_mastertable(path, filename, prey_size_limit, bait_name)
+   ```
 
-A master table keeps gene information.
+   A master table keeps gene information.
 
-![Master table](./preprocessing/figures/mastertable.png)
+   ![Master table](./preprocessing/figures/mastertable.png)
 
-### Apply the range of interest 
-The method `filter_prey_sequences` applies identified prophage or user-specified range and returns a filtered.xlsx table, gene sequences.
-The following example show how to achieve it using filter_prey_sequences
+   ### Apply the range of interest 
+   The method `filter_prey_sequences` applies identified prophage or user-specified range and returns a filtered.xlsx table, gene sequences.
+   The following example show how to achieve it using filter_prey_sequences
 
-```Python
-# Fetch sequences to screen
-from run import filter_prey_sequences
-path            = "./"                  #Working directory
-filename        = 'sequence'            #Genomic sequence
-prey_size_limit = 400                   #Residue size
-bait_name       = 'Sa34'                #Name of integrase
-filter_start    = 36108        
-filter_end      = 57723   
-filter_prey_sequences(path, filename, prey_size_limit, bait_name, filter_start, filter_end)
-```
-A filtered table keeps track of which sequences are fetched and skipped.
-![Filtered table](./figures/filtered.png)
+   ```Python
+   # Fetch sequences to screen
+   from run import filter_prey_sequences
+   path            = "./"                  #Working directory
+   filename        = 'sequence'            #Genomic sequence
+   prey_size_limit = 400                   #Residue size
+   bait_name       = 'Sa34'                #Name of integrase
+   filter_start    = 36108        
+   filter_end      = 57723   
+   filter_prey_sequences(path, filename, prey_size_limit, bait_name, filter_start, filter_end)
+   ```
+   A filtered table keeps track of which sequences are fetched and skipped.
+   ![Filtered table](./figures/filtered.png)
 
-### Pair sequences to be screened to the sequence of interest
-The method `combine_pairwise_batch` returns paired sequences in fasta format (seq1:seq2, seq1:seq3,...,seq1:seqn) to to be used as input files for ColabFold.
-The following example show how to achieve it using combine_pairwise_batch
+   ### Pair sequences to be screened to the sequence of interest
+   The method `combine_pairwise_batch` returns paired sequences in fasta format (seq1:seq2, seq1:seq3,...,seq1:seqn) to to be used as input files for ColabFold.
+   The following example show how to achieve it using combine_pairwise_batch
 
-```Python
-# Pairing sequences
-from run import combine_pairwise_batch
-path            = "./"                  #Working directory
-filenames       = sorted(glob.glob("./fa/"+"*.fa"))
-bait_name       = 'Sa34'                #Name of integrase
-combine_pairwise_batch(path, filenames, bait_name)
-```
+   ```Python
+   # Pairing sequences
+   from run import combine_pairwise_batch
+   path            = "./"                  #Working directory
+   filenames       = sorted(glob.glob("./fa/"+"*.fa"))
+   bait_name       = 'Sa34'                #Name of integrase
+   combine_pairwise_batch(path, filenames, bait_name)
+   ```
+</details>
+
 -----------------------------------------------------------------------------------
 
 ## Step 2. Using ColabFold for structure predictions
@@ -238,70 +237,79 @@ Finally, we need to compile GPU supporting ['Jax'](https://github.com/markusschm
 
 ### Bash script to make project directories
 Preprocessed fasta sequences will be stored in ready directory
+<details>
+   <summary>Click me</summary>
+   ```Bash
+   #!/bin/bash
+   echo "setting up directories for $1 integrase"
+   echo "copy and paste the following line for rsync"
+   echo "rsync -auvz * heewhan@midway3.rcc.uchicago.edu:/beagle3/price/top_search/$1/ready"
+   mkdir $1 
+   cd $1
+   mkdir ready msas predictions log
+   ```
+</details>
 
-```Bash
-#!/bin/bash
-echo "setting up directories for $1 integrase"
-echo "copy and paste the following line for rsync"
-echo "rsync -auvz * heewhan@midway3.rcc.uchicago.edu:/beagle3/price/top_search/$1/ready"
-mkdir $1 
-cd $1
-mkdir ready msas predictions log
-```
 ### SBATCH script for generating MSA files
 The following script returns MSA (.a3m) files in the msas and log files in the log directory
+<details>
+   <summary>Click me</summary>
+   ```Bash
+   #!/bin/bash
+   #SBATCH --job-name=msa_search
+   #SBATCH --account=pi-price
+   #SBATCH -c 4                                 # Requested cores
+   #SBATCH --time=42:00:00                    # Runtime in D-HH:MM format
+   #SBATCH --partition=beagle3                    # Partition to run in
+   #SBATCH --mem=128GB                           # Requested Memory
+   #SBATCH -o ./log/search.out                          
+   #SBATCH -e ./log/search.err                        
 
-```Bash
-#!/bin/bash
-#SBATCH --job-name=msa_search
-#SBATCH --account=pi-price
-#SBATCH -c 4                                 # Requested cores
-#SBATCH --time=42:00:00                    # Runtime in D-HH:MM format
-#SBATCH --partition=beagle3                    # Partition to run in
-#SBATCH --mem=128GB                           # Requested Memory
-#SBATCH -o ./log/search.out                          
-#SBATCH -e ./log/search.err                        
+   module load gcc/10.2.0 cuda/11.2
+   source ~/.bash_profile
 
-module load gcc/10.2.0 cuda/11.2
-source ~/.bash_profile
-
-colabfold_search --db-load-mode 0 \
---mmseqs mmseqs \
---use-env 1 \
---use-templates 0 \
---threads 3 \
-ready /software/colabfold-data msas
-```
+   colabfold_search --db-load-mode 0 \
+   --mmseqs mmseqs \
+   --use-env 1 \
+   --use-templates 0 \
+   --threads 3 \
+   ready /software/colabfold-data msas
+   ```
+</details>
 
 ### SBATCH script for structure predictions
 The following script returns predicted output files in the predictions and log files in the log directory
 
-```Bash
-#!/bin/bash
-#SBATCH --job-name=Predict
-#SBATCH --account=pi-price
-#SBATCH --partition=beagle3
-#SBATCH --nodes=1
-#SBATCH --time=12:00:00
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=8
-#SBATCH --gres=gpu:2
-#SBATCH --constraint=a100
-#SBATCH --mem=48G
-#SBATCH --output=./log/predict.out
-#SBATCH --error=./log/predict.err
+<details>
+   <summary>Click me</summary>
+   ```Bash
+   #!/bin/bash
+   #SBATCH --job-name=Predict
+   #SBATCH --account=pi-price
+   #SBATCH --partition=beagle3
+   #SBATCH --nodes=1
+   #SBATCH --time=12:00:00
+   #SBATCH --ntasks-per-node=1
+   #SBATCH --cpus-per-task=8
+   #SBATCH --gres=gpu:2
+   #SBATCH --constraint=a100
+   #SBATCH --mem=48G
+   #SBATCH --output=./log/predict.out
+   #SBATCH --error=./log/predict.err
 
-#module load alphafold/2.2.0 cuda/11.3
-module load cuda/11.5
-cd $SLURM_SUBMIT_DIR
+   #module load alphafold/2.2.0 cuda/11.3
+   module load cuda/11.5
+   cd $SLURM_SUBMIT_DIR
+   
+   echo "GPUs available: $CUDA_VISIBLE_DEVICES"
+   echo "CPU cores: $SLURM_CPUS_PER_TASK"
+   
+   nvidia-smi
+   
+   colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
+   ```
+</details>
 
-echo "GPUs available: $CUDA_VISIBLE_DEVICES"
-echo "CPU cores: $SLURM_CPUS_PER_TASK"
-
-nvidia-smi
-
-colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
-```
 ----------------------------------------------------
 <!-- What is this for? -->
 
@@ -381,177 +389,186 @@ subprocess.call("echo converting eps to pdf...",shell=True)
 ##converting figures to pdf
 convert_to_pdf(figures)
 ```
-
 --------------------------------------
-## :asterisk: Here are examples of each function below
-### Renaming output files to locus_tag
-a python script to rename output files from ColabFold
-```Python
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-import os
 
-new_names=[]
+## :asterisk: Examples for each function
+<details>
+   <summary> Here </summary>
 
-# Directory containing the files
-path = "./"
+   ### Renaming output files to locus_tag
+   a python script to rename output files from ColabFold
+   ```Python
+   #!/usr/bin/env python3
+   # -*- coding: utf-8 -*-
+   import os
 
-# Get a list of files in the directory
-files = os.listdir(path)
-##
-# Filter the files to get only the ones with .a3m extension
-a3m_files = sorted([f for f in files if f.endswith(".a3m")])
-a3m_files = sorted(a3m_files, key=lambda x: int(x.split(".")[0]))
-for a3m_file in a3m_files:
-    with open(a3m_file, "r") as f:
-        lines=f.readlines()
-        second_line =lines[1]
-        new_names.append(second_line.split( )[1])
+   new_names=[]
 
-# Iterate over the a3m files and rename the corresponding files with the new names
-name_dict = {}
-for a3m_file, new_file in zip(a3m_files, new_names):
-    keyword = a3m_file.split(".")[0] + '_'
-    name_dict[keyword] = new_file
-for file in files:
-    # check if file starts with any of the keys in name_dict
-    for key in name_dict.keys():
-        if file.startswith(key):
-            new_filename = file.replace(key, name_dict[key]+'_',1)
-            #rename
-            os.rename(os.path.join(path, file), os.path.join(path, new_filename))
-            break
-```
-### Concetanate PAE plots
+   # Directory containing the files
+   path = "./"
 
-The following code snippet concatenate all PAE plots in the project directory and returns one figure.  
+   # Get a list of files in the directory
+   files = os.listdir(path)
+   ##
+   # Filter the files to get only the ones with .a3m extension
+   a3m_files = sorted([f for f in files if f.endswith(".a3m")])
+   a3m_files = sorted(a3m_files, key=lambda x: int(x.split(".")[0]))
+   for a3m_file in a3m_files:
+       with open(a3m_file, "r") as f:
+           lines=f.readlines()
+           second_line =lines[1]
+           new_names.append(second_line.split( )[1])
+   
+   # Iterate over the a3m files and rename the corresponding files with the new names
+   name_dict = {}
+   for a3m_file, new_file in zip(a3m_files, new_names):
+       keyword = a3m_file.split(".")[0] + '_'
+       name_dict[keyword] = new_file
+   for file in files:
+       # check if file starts with any of the keys in name_dict
+       for key in name_dict.keys():
+           if file.startswith(key):
+               new_filename = file.replace(key, name_dict[key]+'_',1)
+               #rename
+               os.rename(os.path.join(path, file), os.path.join(path, new_filename))
+               break
+   ```
+   ### Concetanate PAE plots
+   
+   The following code snippet concatenate all PAE plots in the project directory and returns one figure.  
+   
+   ```Python
+   #!/usr/bin/env python3
+   # -*- coding: utf-8 -*-
 
-```Python
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+   import glob
+   from PIL import Image, ImageDraw, ImageFont
+   import os
 
-import glob
-from PIL import Image, ImageDraw, ImageFont
-import os
+   def concatenate_images(folder_path, title_font_size=16):
+       # Get all PNG files in the directory
+       image_files = glob.glob(f'{folder_path}/*.png')
+   
+       # Open all images
+       images = [Image.open(img) for img in image_files]
+   
+       # Get dimensions of the first image
+       width, height = images[0].size
+   
+       # Create a new image with the same width and the combined height of all images
+       result = Image.new('RGB', (width, height * len(images)), color='white')
+   
+       # Paste each image into the result image vertically
+       for i, img in enumerate(images):
+           result.paste(img, (0, i * height))
+   
+       # Add a title to each image
+       title_font = ImageFont.load_default()
+       draw = ImageDraw.Draw(result)
+       title_font_size = 24
+       for i, img_file in enumerate(image_files):
+           label = os.path.basename(img_file)
+           label_width, label_height = draw.textsize(label, font=title_font)
+           draw.text((0, i * height), label, font=title_font, fill=(0, 0, 0))
+   
+       return result
+   
+   folder_path = './'
+   result = concatenate_images(folder_path)
+   result.save('result.png')
+   ```
+</details>
 
-def concatenate_images(folder_path, title_font_size=16):
-    # Get all PNG files in the directory
-    image_files = glob.glob(f'{folder_path}/*.png')
-
-    # Open all images
-    images = [Image.open(img) for img in image_files]
-
-    # Get dimensions of the first image
-    width, height = images[0].size
-
-    # Create a new image with the same width and the combined height of all images
-    result = Image.new('RGB', (width, height * len(images)), color='white')
-
-    # Paste each image into the result image vertically
-    for i, img in enumerate(images):
-        result.paste(img, (0, i * height))
-
-    # Add a title to each image
-    title_font = ImageFont.load_default()
-    draw = ImageDraw.Draw(result)
-    title_font_size = 24
-    for i, img_file in enumerate(image_files):
-        label = os.path.basename(img_file)
-        label_width, label_height = draw.textsize(label, font=title_font)
-        draw.text((0, i * height), label, font=title_font, fill=(0, 0, 0))
-
-    return result
-
-folder_path = './'
-result = concatenate_images(folder_path)
-result.save('result.png')
-```
 Concatenated PAEs allow a quick comparison of PAE plots
 
 ![PAE figure](./postprocessing/figures/Nm60_pae.png)
 
-### Plot pTM and ipTM values
+<details>
+   <summary> And here </summary>
+   ### Plot pTM and ipTM values
 
-The method `plot_ptm_iptm` fetches pTM and ipTM values from json files of ColabFold output and use gnuplot to plot the values.
+   The method `plot_ptm_iptm` fetches pTM and ipTM values from json files of ColabFold output and use gnuplot to plot the values.
 
-```Python
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-import json
-import subprocess
-import numpy as np
-import glob
+   ```Python
+   #!/usr/bin/env python3
+   # -*- coding: utf-8 -*-
+   import json
+   import subprocess
+   import numpy as np
+   import glob
 
-#this script will extract pTM, ipTM from *_seed_000.json files and plot them to compare between files
-########################################
-bait_name    ='Se37'
-title_offset = 2
-folder_path  ='.'
-f_width      = 12 #figure width
-f_height     = 5  #figure height
-fontsize     = 10
-margin_top   = 10
-margin_bot   = 10
-margin_left  = 10
-margin_right = 11
-key_position = 'left'
-########################################
-ptms=[]
-iptms=[]
-pae_data=[]
-gnu_data=[]
-json_files = glob.glob(f'{folder_path}/*_seed_000.json')
-for json_file in sorted(json_files):
-    with open (json_file) as f:
-        data=json.load(f)
-        ptms.append(data['ptm'])
-        iptms.append(data['iptm'])
+   #This script will extract pTM, ipTM from *_seed_000.json files and plot them to compare between files
+   ########################################
+   bait_name    ='Se37'
+   title_offset = 2
+   folder_path  ='.'
+   f_width      = 12 #figure width
+   f_height     = 5  #figure height
+   fontsize     = 10
+   margin_top   = 10
+   margin_bot   = 10
+   margin_left  = 10
+   margin_right = 11
+   key_position = 'left'
+   ########################################
+   ptms=[]
+   iptms=[]
+   pae_data=[]
+   gnu_data=[]
+   json_files = glob.glob(f'{folder_path}/*_seed_000.json')
+   for json_file in sorted(json_files):
+       with open (json_file) as f:
+           data=json.load(f)
+           ptms.append(data['ptm'])
+           iptms.append(data['iptm'])
 
-for i, p, ip in zip(sorted(json_files), ptms, iptms):
-    pae_data.append(\
-f"{i.split('.fa_pair_scores_rank')[0][2:]+'_'+i.split('.fa_pair_scores_rank_00')[1][:1]} {p:.2f} {ip:.2f}")
+   for i, p, ip in zip(sorted(json_files), ptms, iptms):
+       pae_data.append(\
+   f"{i.split('.fa_pair_scores_rank')[0][2:]+'_'+i.split('.fa_pair_scores_rank_00')[1][:1]} {p:.2f} {ip:.2f}")
+   
+   for data in pae_data:
+       gnu_data.append(data.replace('_','.'))
 
-for data in pae_data:
-    gnu_data.append(data.replace('_','.'))
-
-# Plot the graph using gnuplot
-with open('%s.gp'%(bait_name), 'w') as f:
-    # Define the plot settings
-    f.write('set term x11\n')
-    f.write('set tmargin %d\n'%(margin_top))
-    f.write('set bmargin %d\n'%(margin_bot))
-    f.write('set lmargin %d\n'%(margin_left))
-    f.write('set rmargin %d\n'%(margin_right))
-    f.write('set title "%s alphafold pulldown" font "Helvetica-Bold, 18" offset 0,%d \n'%(bait_name,title_offset))
-    f.write('set xlabel "predicted models"\n')
-    f.write('set ylabel "pTM and ipTM values"\n')
-    f.write('set key %s\n'%(key_position))
-    f.write('set xtics rotate by -45\n')
-    f.write('set key box lt -1 lw 2\n')
-    f.write('set x2tics out\n')
-    f.write('set x2tics rotate by 45\n')
-    f.write('set grid xtics\n')
-    f.write('set grid x2tics\n')
-    f.write('set terminal postscript eps enhanced color solid "Helvetica" %d size %d,%d\n'%(fontsize, f_width, f_height))
-    f.write('set output "%s.eps"\n'%(bait_name))
-    # Plot the data
-    f.write('plot "-" u 1:3:4:xticlabels(2) w p pt 7 lc rgb "red" notitle, "-" u 1:3:4:x2ticlabel(2) w p pt 7 lc rgb "red" notitle, "-" u 1:4 w lp pt 7 lc rgb "blue" t "ipTM", "-" u 1:3 w lp pt 7 lc rgb "red" t "pTM" \n')
+   # Plot the graph using gnuplot
+   with open('%s.gp'%(bait_name), 'w') as f:
+       # Define the plot settings
+       f.write('set term x11\n')
+       f.write('set tmargin %d\n'%(margin_top))
+       f.write('set bmargin %d\n'%(margin_bot))
+       f.write('set lmargin %d\n'%(margin_left))
+       f.write('set rmargin %d\n'%(margin_right))
+       f.write('set title "%s alphafold pulldown" font "Helvetica-Bold, 18" offset 0,%d \n'%(bait_name,title_offset))
+       f.write('set xlabel "predicted models"\n')
+       f.write('set ylabel "pTM and ipTM values"\n')
+       f.write('set key %s\n'%(key_position))
+       f.write('set xtics rotate by -45\n')
+       f.write('set key box lt -1 lw 2\n')
+       f.write('set x2tics out\n')
+       f.write('set x2tics rotate by 45\n')
+       f.write('set grid xtics\n')
+       f.write('set grid x2tics\n')
+       f.write('set terminal postscript eps enhanced color solid "Helvetica" %d size %d,%d\n'%(fontsize, f_width, f_height))
+       f.write('set output "%s.eps"\n'%(bait_name))
+       # Plot the data
+       f.write('plot "-" u 1:3:4:xticlabels(2) w p pt 7 lc rgb "red" notitle, "-" u 1:3:4:x2ticlabel(2) w p pt 7 lc rgb "red" notitle, "-" u 1:4 w lp pt 7 lc rgb "blue" t "ipTM", "-" u 1:3 w lp pt 7 lc rgb "red" t "pTM" \n')
     
-    for i in range(0,len(gnu_data),2):
-        f.write('{} {}\n'.format(i+1,gnu_data[i]))
-    f.write('e\n')
-    for i in range(1,len(gnu_data),2): 
-        f.write('{} {}\n'.format(i+1,gnu_data[i]))
-    f.write('e\n')
-    for i in range(len(gnu_data)):
-        f.write('{} {}\n'.format(i+1,gnu_data[i]))
-    f.write('e\n')
-    for i in range(len(gnu_data)):
-        f.write('{} {}\n'.format(i+1,gnu_data[i]))
-    f.write('e\n')
-# Call gnuplot to create the graph
-subprocess.call(['gnuplot', '%s.gp'%(bait_name)])
-```
+       for i in range(0,len(gnu_data),2):
+           f.write('{} {}\n'.format(i+1,gnu_data[i]))
+       f.write('e\n')
+       for i in range(1,len(gnu_data),2): 
+           f.write('{} {}\n'.format(i+1,gnu_data[i]))
+       f.write('e\n')
+       for i in range(len(gnu_data)):
+           f.write('{} {}\n'.format(i+1,gnu_data[i]))
+       f.write('e\n')
+       for i in range(len(gnu_data)):
+           f.write('{} {}\n'.format(i+1,gnu_data[i]))
+       f.write('e\n')
+   # Call gnuplot to create the graph
+   subprocess.call(['gnuplot', '%s.gp'%(bait_name)])
+   ```
+</details>
+
 A plot of pTM and ipTM values allows users to quickly navigate and interpret the results. 
 
 ![pTM and ipTM plot](./postprocessing/figures/Nm60.png)
