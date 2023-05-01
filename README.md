@@ -333,7 +333,7 @@ postprocessing scripts for ColabFold output files return figures to facilitate n
 This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.readthedocs.io/en/stable/).
 
 ### :star: One step post-processing with `makefig_auto.py`
-The code returns a concatenated figure of PAE and plots of pTM and ipTM.
+`makefig_auto.py` returns a concatenated figure of PAE and plots of pTM and ipTM.
 
 <details>
    <summary> :rocket: Click here for the python script </summary>
