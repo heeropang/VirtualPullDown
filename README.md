@@ -160,7 +160,7 @@ Output files will be stored in the ready folder...
 ![example](./preprocessing/figures/output_template_auto.png)
 
 --------------------------------------------
-## :asterisk: Examples for each function
+### :asterisk: Examples for each function
 <details>
    <summary> :rocket: Click here for the python script </summary>
    
@@ -415,7 +415,7 @@ figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
 --------------------------------------
 
-## :asterisk: Examples for each function
+### :asterisk: Examples for each function
 <details>
    <summary> :rocket: Click here for the python script </summary>
 
