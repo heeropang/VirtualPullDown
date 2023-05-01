@@ -39,6 +39,7 @@ else:
     print(f"Name of integrase: {bait_name}")
 
 rename_files(path)
+print ("files are renamed using locus_tags...")
 
 figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
