@@ -155,6 +155,9 @@ If the prophage is found via Phaster, then the script will ask the user to proce
 Applying the prophage range found via Phaster...
 ![Applying the range](./preprocessing/figures/automatic_input.png)
 
+Output files are stored in the ready folder...
+![example](./preprocessing/figures/output_template_auto.png)
+
 --------------------------------------------
 ## :asterisk: Examples for each function
 <details>
@@ -397,6 +400,9 @@ figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
    convert_to_pdf(figures)
    ```
 </details>
+
+Output files are stored in the ready folder...
+![example](./postprocessing/figures/prompt_makefig_auto.png)
 
 --------------------------------------
 
