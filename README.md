@@ -37,108 +37,112 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 
 Here are the two ways you can run the script...
 ![example](./preprocessing/figures/command_template_auto.png)
-   
-```Python
-#!/usr/bin/env python
-"""
-Usage:        ./template_auto.py
-Author:       Heewhan Shin
-Author_email: hshin40@gmail.com
-Date:         April 25, 2023
-Description:  This script identifies prophages (if any) then produces paired input sequence files for multimer predictions using localcolabfold.
-""" 
-from run import create_mastertable, identify_prophage_region, filter_prey_sequences, combine_pairwise_batch
-import subprocess
-import glob
-import os
-import sys
-import argparse
- 
-## Specify inputs
-###########################################################
-path            = "./"                  #Working directory
-filename        = 'sequence'            #Genomic sequence
-prey_size_limit = 400                   #Residue size
-bait_name       = 'Bt24'                #Name of integrase
-accession_number= 'NZ_NVLR01000020.1'
-###########################################################
 
-parser = argparse.ArgumentParser(description='Identify prophages and prepare input sequence files for multimer predictions using localcolabfold')
-parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of integrase')
-parser.add_argument('accession_number_given', metavar='accession_number_given', type=str, nargs='?', default=None, help='Accession number of the genomic sequence')
-args = parser.parse_args()
-
-if args.bait_name_given and args.accession_number_given:
-    bait_name = args.bait_name_given
-    accession_number = args.accession_number_given
-    print(f"Name of integrase: {args.bait_name_given}")
-    print(f"Accession number of the genomic sequence: {args.accession_number_given}")
-else:
-    bait_name = bait_name
-    accession_number = accession_number
-    print("No arguments provided...")
-    print("Using the following inputs found in the script...")
-    print(f"Name of integrase: {bait_name}")
-    print(f"Accession number of the genomic sequence: {accession_number}")
+<details>
+   <summary> Click here for the python script </summary>
+   
+   ```Python
+   #!/usr/bin/env python
+   """
+   Usage:        ./template_auto.py
+   Author:       Heewhan Shin
+   Author_email: hshin40@gmail.com
+   Date:         April 25, 2023
+   Description:  This script identifies prophages (if any) then produces paired input sequence files for multimer predictions using localcolabfold.
+   """ 
+   from run import create_mastertable, identify_prophage_region, filter_prey_sequences, combine_pairwise_batch
+   import subprocess
+   import glob
+   import os
+   import sys
+   import argparse
  
-## Checking prerequisite files
-if not os.path.isfile("%s.txt"%(filename)):
-    print("Error: please check if the genomic sequence is saved in the directory")
-    exit(1)
-if not os.path.isfile("%s.fasta"%(bait_name)):
-    print("Error: %s.fasta does not exist\n"%(bait_name))
-    exit(1)
-if not os.path.isfile("%s_bait_truncated.fasta"%(bait_name)):
-    print("Error: %s_bait_truncated.fasta does not exist\n"%(bait_name))
-    exit(1)
- 
-## Fixing the genomic sequence formatting issue if it exists
-sed_cmd = "sed -e 's/\[db_xref=[^]]*\] //g' sequence.txt >sequence_check.txt"
-subprocess.call(sed_cmd, shell=True)
-   
-## Preparing subdirectories
-subprocess.call("mkdir fa ready", shell=True)
-subprocess.call("rm fa/*", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
-subprocess.call("rm ready/*", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
-range           = 'range.txt'
-filenames       = sorted(glob.glob("./fa/"+"*.fa"))
-   
-## create mastertable
-create_mastertable(path, filename, prey_size_limit, bait_name)
-subprocess.call("echo Searching for prophage using Phaster..\n", shell=True)
-   
-## Search prophage
-identify_prophage_region(accession_number)
+   ## Specify inputs
+   ###########################################################
+   path            = "./"                  #Working directory
+   filename        = 'sequence'            #Genomic sequence
+   prey_size_limit = 400                   #Residue size
+   bait_name       = 'Bt24'                #Name of integrase
+   accession_number= 'NZ_NVLR01000020.1'
+   ###########################################################
 
-if os.path.isfile(range):
-    user_input = input("Regions of prophages identified. Do you want to use the identified range? (y/n): ")
-    if user_input.lower() == "y":
-        with open(range, 'r') as f:
-            filter_start, filter_end= f.readline().strip().split()
-            filter_start    = int(filter_start)
-            filter_end      = int(filter_end)
-            print("Using the identified range from Phaster: %d to %d"%(filter_start, filter_end))
-    elif user_input.lower()=="n":
-        print("Proceed with manual input of the range.")
-        filter_start = int(input("Enter the range start: "))
-        filter_end   = int(input("Enter the range end: "))
-    else:
-        print("Invalid input. Please enter 'y or 'no'.")
-        exit(1)
-else:
-    print("Prophages not identified. Proceed with manual input of the range.")
-    filter_start = int(input("Enter the range start: "))
-    filter_end   = int(input("Enter the range end: "))
+   parser = argparse.ArgumentParser(description='Identify prophages and prepare input sequence files for multimer predictions using localcolabfold')
+   parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of integrase')
+   parser.add_argument('accession_number_given', metavar='accession_number_given', type=str, nargs='?', default=None, help='Accession number of the genomic sequence')
+   args = parser.parse_args()
+
+   if args.bait_name_given and args.accession_number_given:
+       bait_name = args.bait_name_given
+       accession_number = args.accession_number_given
+       print(f"Name of integrase: {args.bait_name_given}")
+       print(f"Accession number of the genomic sequence: {args.accession_number_given}")
+   else:
+       bait_name = bait_name
+       accession_number = accession_number
+       print("No arguments provided...")
+       print("Using the following inputs found in the script...")
+       print(f"Name of integrase: {bait_name}")
+       print(f"Accession number of the genomic sequence: {accession_number}")
+ 
+   ## Checking prerequisite files
+   if not os.path.isfile("%s.txt"%(filename)):
+       print("Error: please check if the genomic sequence is saved in the directory")
+       exit(1)
+   if not os.path.isfile("%s.fasta"%(bait_name)):
+       print("Error: %s.fasta does not exist\n"%(bait_name))
+       exit(1)
+   if not os.path.isfile("%s_bait_truncated.fasta"%(bait_name)):
+       print("Error: %s_bait_truncated.fasta does not exist\n"%(bait_name))
+       exit(1)
+ 
+   ## Fixing the genomic sequence formatting issue if it exists
+   sed_cmd = "sed -e 's/\[db_xref=[^]]*\] //g' sequence.txt >sequence_check.txt"
+   subprocess.call(sed_cmd, shell=True)
+      
+   ## Preparing subdirectories
+   subprocess.call("mkdir fa ready", shell=True)
+   subprocess.call("rm fa/*", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+   subprocess.call("rm ready/*", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+   range           = 'range.txt'
+   filenames       = sorted(glob.glob("./fa/"+"*.fa"))
    
-# Filter prey sequences
-filter_prey_sequences(path, filename, prey_size_limit, bait_name, filter_start, filter_end)
-subprocess.call("mv ./*.fa fa/", shell=True)
+   ## create mastertable
+   create_mastertable(path, filename, prey_size_limit, bait_name)
+   subprocess.call("echo Searching for prophage using Phaster..\n", shell=True)
    
-combine_pairwise_batch(path, filenames, bait_name)
-subprocess.call("mv fa/*.fasta ready/", shell=True)
-subprocess.call("echo Preprocessing is complete..\n", shell=True)
-subprocess.call("echo Input files saved in ready folder..\n", shell=True)
-```
+   ## Search prophage
+   identify_prophage_region(accession_number)
+   
+   if os.path.isfile(range):
+       user_input = input("Regions of prophages identified. Do you want to use the identified range? (y/n): ")
+       if user_input.lower() == "y":
+           with open(range, 'r') as f:
+               filter_start, filter_end= f.readline().strip().split()
+               filter_start    = int(filter_start)
+               filter_end      = int(filter_end)
+               print("Using the identified range from Phaster: %d to %d"%(filter_start, filter_end))
+       elif user_input.lower()=="n":
+           print("Proceed with manual input of the range.")
+           filter_start = int(input("Enter the range start: "))
+           filter_end   = int(input("Enter the range end: "))
+       else:
+           print("Invalid input. Please enter 'y or 'no'.")
+           exit(1)
+   else:
+       print("Prophages not identified. Proceed with manual input of the range.")
+       filter_start = int(input("Enter the range start: "))
+       filter_end   = int(input("Enter the range end: "))
+      
+   # Filter prey sequences
+   filter_prey_sequences(path, filename, prey_size_limit, bait_name, filter_start, filter_end)
+   subprocess.call("mv ./*.fa fa/", shell=True)
+      
+   combine_pairwise_batch(path, filenames, bait_name)
+   subprocess.call("mv fa/*.fasta ready/", shell=True)
+   subprocess.call("echo Preprocessing is complete..\n", shell=True)
+   subprocess.call("echo Input files saved in ready folder..\n", shell=True)
+   ```
+</details>
 
 If the prophage is not found, then the script will ask the user for manual inputs to specify the range of interest...
 ![if prophage not found](./preprocessing/figures/manual_input.png)
@@ -323,77 +327,80 @@ The code returns a concatenated figure of PAE and plots of pTM and ipTM.
 
 Here are the two ways you can run the script...
 ![example](./postprocessing/figures/command_makefig_auto.png)
+<details>
+   <summary> Click here for the python script </summary>
+   ```Python
+   #!/usr/bin/env python
+   """
+   Usage:        ./makefig_auto.py
+   Author:       Heewhan Shin
+   Author_email: hshin40@gmail.com
+   Date:         April 28, 2023
+   Description:  This script extracts pTM and ipTM values from output files and produces a scatter plot and concatenate all PAE plots.
+   """
+   from run import concatenate_images, plot_ptm_iptm, convert_to_pdf, rename_files
+   import subprocess
+   import os
+   import argparse
 
-```Python
-#!/usr/bin/env python
-"""
-Usage:        ./makefig_auto.py
-Author:       Heewhan Shin
-Author_email: hshin40@gmail.com
-Date:         April 28, 2023
-Description:  This script extracts pTM and ipTM values from output files and produces a scatter plot and concatenate all PAE plots.
-"""
-from run import concatenate_images, plot_ptm_iptm, convert_to_pdf, rename_files
-import subprocess
-import os
-import argparse
+   ## Specify inputs
+   ###########################################################
+   path            = "./"                  #Working directory
+   bait_name       = 'Bt24'                #Name of integrase
+   title_offset    = 2                     #Change number to adjust location of the title
+   f_width         = 12                    #Figure width
+   f_height        = 5                     #Figure height
+   fontsize        = 10                    #Decrease the font and figure sizes or margins to fit a plot in a white space 
+   margin_top      = 10                    
+   margin_bot      = 10 
+   margin_left     = 10
+   margin_right    = 10
+   key_position    = 'left'                # right, left, topleft, topright..etc
+   ###########################################################
 
-## Specify inputs
-###########################################################
-path            = "./"                  #Working directory
-bait_name       = 'Bt24'                #Name of integrase
-title_offset    = 2                     #Change number to adjust location of the title
-f_width         = 12                    #Figure width
-f_height        = 5                     #Figure height
-fontsize        = 10                    #Decrease the font and figure sizes or margins to fit a plot in a white space 
-margin_top      = 10                    
-margin_bot      = 10 
-margin_left     = 10
-margin_right    = 10
-key_position    = 'left'                # right, left, topleft, topright..etc
-###########################################################
+   parser = argparse.ArgumentParser(description='Generate pTM and ipTM plot and concatenated PAE figure')
+   parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of integrase')
+   args = parser.parse_args()
 
-parser = argparse.ArgumentParser(description='Generate pTM and ipTM plot and concatenated PAE figure')
-parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of integrase')
-args = parser.parse_args()
-
-if args.bait_name_given is not None:
-    bait_name = args.bait_name_given
-    print(f"Making figures using the name provided: {bait_name}")
-else:
-    print("No arguments provided...")
-    print("Using the following inputs found in the script...")
-    print(f"Name of integrase: {bait_name}")
-
-rename_files(path)
+   if args.bait_name_given is not None:
+       bait_name = args.bait_name_given
+       print(f"Making figures using the name provided: {bait_name}")
+   else:
+       print("No arguments provided...")
+       print("Using the following inputs found in the script...")
+       print(f"Name of integrase: {bait_name}")
+   
+   rename_files(path)
 
 figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
-if os.path.isfile("%s_pae.png"%(bait_name)):
-    print("Concatenated %s_pae figure already exists.."%(bait_name))
-    print("Stopping process. Please check the figure..")
-    exit(1)
+   if os.path.isfile("%s_pae.png"%(bait_name)):
+       print("Concatenated %s_pae figure already exists.."%(bait_name))
+       print("Stopping process. Please check the figure..")
+       exit(1)
 
-##making PAE plots
-result = concatenate_images(path)
-result.save('%s_pae.png'%(bait_name))
+   ##making PAE plots
+   result = concatenate_images(path)
+   result.save('%s_pae.png'%(bait_name))
 
-subprocess.call("echo pae plots are concatenated...", shell=True)
-subprocess.call("echo plotting pTM and iPTM values...\n", shell=True)
+   subprocess.call("echo pae plots are concatenated...", shell=True)
+   subprocess.call("echo plotting pTM and iPTM values...\n", shell=True)
 
-##plotting ptm and iptm data
-plot_ptm_iptm(bait_name, title_offset, path, f_width, f_height, fontsize, margin_top, margin_bot, margin_left, margin_right, key_position)
-subprocess.call("echo pTM, iPTM values are plotted...\n", shell=True)
-subprocess.call("echo converting eps to pdf...",shell=True)
+   ##plotting ptm and iptm data
+   plot_ptm_iptm(bait_name, title_offset, path, f_width, f_height, fontsize, margin_top, margin_bot, margin_left, margin_right, key_position)
+   subprocess.call("echo pTM, iPTM values are plotted...\n", shell=True)
+   subprocess.call("echo converting eps to pdf...",shell=True)
 
-##converting figures to pdf
-convert_to_pdf(figures)
-```
+   ##converting figures to pdf
+   convert_to_pdf(figures)
+   ```
+</details>
+
 --------------------------------------
 
 ## :asterisk: Examples for each function
 <details>
-   <summary> Here </summary>
+   <summary> Click here </summary>
 
    ### Renaming output files to locus_tag
    a python script to rename output files from ColabFold
@@ -479,12 +486,12 @@ convert_to_pdf(figures)
    ```
 </details>
 
-Concatenated PAEs allow a quick comparison of PAE plots
+Running the script will produce concatenated PAE plot below, which allow a quick comparison of PAE plots
 
 ![PAE figure](./postprocessing/figures/Nm60_pae.png)
 
 <details>
-   <summary> And here </summary>
+   <summary> Click here </summary>
    ### Plot pTM and ipTM values
 
    The method `plot_ptm_iptm` fetches pTM and ipTM values from json files of ColabFold output and use gnuplot to plot the values.
@@ -569,7 +576,7 @@ Concatenated PAEs allow a quick comparison of PAE plots
    ```
 </details>
 
-A plot of pTM and ipTM values allows users to quickly navigate and interpret the results. 
+And a pTM ipTM plot, which concurrently allows users to quickly navigate and interpret the results. 
 
 ![pTM and ipTM plot](./postprocessing/figures/Nm60.png)
 
