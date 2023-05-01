@@ -39,7 +39,7 @@ Here are the two ways you can run the script...
 ![example](./preprocessing/figures/command_template_auto.png)
 
 <details>
-   <summary> Click here for the python script </summary>
+   <summary> :rocket: Click here for the python script </summary>
    
    ```Python
    #!/usr/bin/env python
@@ -156,7 +156,7 @@ Applying the prophage range found via Phaster...
 --------------------------------------------
 ## :asterisk: Examples for each function
 <details>
-   <summary> Click here </summary>
+   <summary> :rocket: Click here </summary>
    ### Search for prophage
 
    The following code snippet search for prophage using --['phaster'](https://phaster.ca/)'s URLAPI with genomic sequence's accession code.  
@@ -242,7 +242,7 @@ Finally, we need to compile GPU supporting ['Jax'](https://github.com/markusschm
 ### Bash script to make project directories
 Preprocessed fasta sequences will be stored in ready directory
 <details>
-   <summary>Click here</summary>
+   <summary> :rocket: Click here</summary>
    ```Bash
    #!/bin/bash
    echo "setting up directories for $1 integrase"
@@ -285,7 +285,7 @@ The following script returns MSA (.a3m) files in the msas and log files in the l
 The following script returns predicted output files in the predictions and log files in the log directory
 
 <details>
-   <summary>Click me</summary>
+   <summary> :rocket: Click me</summary>
    ```Bash
    #!/bin/bash
    #SBATCH --job-name=Predict
@@ -328,7 +328,7 @@ The code returns a concatenated figure of PAE and plots of pTM and ipTM.
 Here are the two ways you can run the script...
 ![example](./postprocessing/figures/command_makefig_auto.png)
 <details>
-   <summary> Click here for the python script </summary>
+   <summary> :rocket: Click here for the python script </summary>
    ```Python
    #!/usr/bin/env python
    """
@@ -400,7 +400,7 @@ figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
 ## :asterisk: Examples for each function
 <details>
-   <summary> Click here </summary>
+   <summary> :rocket: Click here </summary>
 
    ### Renaming output files to locus_tag
    a python script to rename output files from ColabFold
@@ -491,7 +491,7 @@ Running the script will produce concatenated PAE plot below, which allow a quick
 ![PAE figure](./postprocessing/figures/Nm60_pae.png)
 
 <details>
-   <summary> Click here </summary>
+   <summary> :rocket: Click here </summary>
    ### Plot pTM and ipTM values
 
    The method `plot_ptm_iptm` fetches pTM and ipTM values from json files of ColabFold output and use gnuplot to plot the values.
