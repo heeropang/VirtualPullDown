@@ -21,7 +21,7 @@ Why it might be a good choice?
 * The overall process requires far less time compared to manual processing of scanning any number of genes, and is exponentially more efficient when handling large number of genes.
 * Individual scripts can provide users flexibility to explore their ideas such as expanding proteoms to more than one organism or having multiple sequence of interests or known complex as baits.   
 
-## Preprocessing
+## Step 1. Preprocessing
 In this step, the sequence files are processed to be used as input files for ColabFold. The script utilizes the genomic protein sequence (i.e., sequence.txt) downloaded from NCBI and the protein sequence of interest (i.e., integrase.fasta).
 
 The template_auto.py script first searches for prophages using Phaster.ca and fetches those regions (if found) upon user consent. Otherwise, the script prompts the user to specify the region of interest in the genomic sequence.
@@ -35,7 +35,7 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 ### :star: One step preprocessing with `template_auto.py`
 `template_auto.py` combines searching prophage region, organizing proteoms, fetching protein sequences, preparing paired input files for ColabFold
 
-Here are two ways you can run the script...
+Here are the two ways you can run the script...
 ![example](./preprocessing/figures/command_template_auto.png)
 
 ```Python
@@ -170,7 +170,6 @@ bait_name       = 'Sa34'                #Name of integrase
 accession_number= 'NZ_FJQW01000022.1'
 identify_prophage_region(accession_number)
 ```
-## Usages for each function
 ### Create a master table to naviagate gene information
 
 The method create_mastertable returns a master table in the form of an Excel file (mastertable.xlsx) containing locus_tag, gene description, gene size, and location information. The following code snippet shows how to generate the master table using create_mastertable.
@@ -219,8 +218,8 @@ filenames       = sorted(glob.glob("./fa/"+"*.fa"))
 bait_name       = 'Sa34'                #Name of integrase
 combine_pairwise_batch(path, filenames, bait_name)
 ```
-
-## Using ColabFold for structure predictions
+-----------------------------------------------------------------------------------
+## Step 2. Using ColabFold for structure predictions
 sbatch scripts are submitted for generating MSA and predicted files using local ColabFold
 <!-- What is this for? --> 
 This is for submitting preprocessed sequence files in batch on slurm to generate multiple sequence alignments (MSA) and structure predictions using ['ColabFold'](https://github.com/sokrypton/ColabFold). 
@@ -300,7 +299,7 @@ colabfold_batch --use-gpu-relax --num-recycle 5 --num-models 5 msas predictions
 ----------------------------------------------------
 <!-- What is this for? -->
 
-## Postprocessing 
+## Step 3. Postprocessing 
 postprocessing scripts for ColabFold output files return figures to facilitate navigation and interpretation of virtual pulldown results.
 ## Dependencies
 This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.readthedocs.io/en/stable/).
@@ -308,7 +307,7 @@ This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.
 ### :star: One step post-processing with `makefig_auto.py`
 The code returns a concatenated figure of PAE and plots of pTM and ipTM.
 
-Here are two ways you can run the script...
+Here are the two ways you can run the script...
 ![example](./postprocessing/figures/command_makefig_auto.png)
 
 ```Python
