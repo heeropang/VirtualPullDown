@@ -35,7 +35,7 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 ### :star: One step preprocessing with `template_auto.py`
 `template_auto.py` combines searching prophage region, organizing proteoms, fetching protein sequences, preparing paired input files for ColabFold
 Here's how you run the script.
-![example](./preprocessing/figures/mastertable.png)
+![example](./preprocessing/figures/command_template_auto.png)
 
 ```Python
 #!/usr/bin/env python
@@ -305,6 +305,8 @@ This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.
 
 ### :star: One step post-processing with `makefig_auto.py`
 The code returns a concatenated figure of PAE and plots of pTM and ipTM.
+Here's how you run the script.
+![example](./postprocessing/figures/command_makefig_auto.png)
 ```Python
 #!/usr/bin/env python
 """
