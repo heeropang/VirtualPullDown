@@ -9,6 +9,7 @@ Description:  This script extracts pTM and ipTM values from output files and pro
 from run import concatenate_images, plot_ptm_iptm, convert_to_pdf, rename_files
 import subprocess
 import os
+import argparse
 
 ## Specify inputs
 ###########################################################
@@ -24,6 +25,18 @@ margin_left     = 10
 margin_right    = 10
 key_position    = 'left'                # right, left, topleft, topright..etc
 ###########################################################
+
+parser = argparse.ArgumentParser(description='Generate pTM and ipTM plot and concatenated PAE figure')
+parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of integrase')
+args = parser.parse_args()
+
+if args.bait_name_given is not None:
+    bait_name = args.bait_name_given
+    print(f"Making figures using the name provided: {bait_name}")
+else:
+    print("No arguments provided...")
+    print("Using the following inputs found in the script...")
+    print(f"Name of integrase: {bait_name}")
 
 rename_files(path)
 
