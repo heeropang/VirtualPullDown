@@ -34,6 +34,7 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 
 ### :star: One step preprocessing with `template_auto.py`
 `template_auto.py` combines searching prophage region, organizing proteoms, fetching protein sequences, preparing paired input files for ColabFold
+
 Here's how you run the script.
 ![example](./preprocessing/figures/command_template_auto.png)
 
