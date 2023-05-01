@@ -12,15 +12,34 @@ import subprocess
 import glob
 import os
 import sys
+import argparse
 
 ## Specify inputs
 ###########################################################
 path            = "./"                  #Working directory
 filename        = 'sequence'            #Genomic sequence
 prey_size_limit = 400                   #Residue size
-bait_name       = 'Sa34'                #Name of integrase
-accession_number= 'NZ_FJQW01000022.1'
+bait_name       = 'Bt24'                #Name of integrase
+accession_number= 'NZ_NVLR01000020.1'
 ###########################################################
+
+parser = argparse.ArgumentParser(description='Identify prophages and prepare input sequence files for multimer predictions using localcolabfold')
+parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of integrase')
+parser.add_argument('accession_number_given', metavar='accession_number_given', type=str, nargs='?', default=None, help='Accession number of the genomic sequence')
+args = parser.parse_args()
+
+if args.bait_name_given and args.accession_number_given:
+    bait_name = args.bait_name_given
+    accession_number = args.accession_number_given
+    print(f"Name of integrase: {args.bait_name_given}")
+    print(f"Accession number of the genomic sequence: {args.accession_number_given}")
+else:
+    bait_name = bait_name
+    accession_number = accession_number
+    print("No arguments provided...")
+    print("Using the following inputs found in the script...")
+    print(f"Name of integrase: {bait_name}")
+    print(f"Accession number of the genomic sequence: {accession_number}")
 
 ## Checking prerequisite files
 if not os.path.isfile("%s.txt"%(filename)):
@@ -52,13 +71,13 @@ subprocess.call("echo Searching for prophage using Phaster..\n", shell=True)
 identify_prophage_region(accession_number)
 
 if os.path.isfile(range):
-    user_input = input("Prophage file exists. Do you want to use the identified range? (y/n): ")
+    user_input = input("Regions of prophages identified. Do you want to use the identified range? (y/n): ")
     if user_input.lower() == "y":
         with open(range, 'r') as f:
             filter_start, filter_end= f.readline().strip().split()
             filter_start    = int(filter_start)
             filter_end      = int(filter_end)
-            print("Using identified range from Phaster: %d to %d"%(filter_start, filter_end))
+            print("Using the identified range from Phaster: %d to %d"%(filter_start, filter_end))
     elif user_input.lower()=="n":
         print("Proceed with manual input of the range.")
         filter_start = int(input("Enter the range start: "))
@@ -67,7 +86,7 @@ if os.path.isfile(range):
         print("Invalid input. Please enter 'y or 'no'.")
         exit(1)
 else:
-    print("Prophage file does not exist. Proceed with manual input of the range.")
+    print("Prophages not identified. Proceed with manual input of the range.")
     filter_start = int(input("Enter the range start: "))
     filter_end   = int(input("Enter the range end: "))
 
