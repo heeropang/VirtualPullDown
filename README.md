@@ -242,7 +242,7 @@ Finally, we need to compile GPU supporting ['Jax'](https://github.com/markusschm
 ### Bash script to make project directories
 Preprocessed fasta sequences will be stored in ready directory
 <details>
-   <summary>Click me</summary>
+   <summary>Click here</summary>
    ```Bash
    #!/bin/bash
    echo "setting up directories for $1 integrase"
@@ -257,7 +257,7 @@ Preprocessed fasta sequences will be stored in ready directory
 ### SBATCH script for generating MSA files
 The following script returns MSA (.a3m) files in the msas and log files in the log directory
 <details>
-   <summary>Click me</summary>
+   <summary>Click here</summary>
    ```Bash
    #!/bin/bash
    #SBATCH --job-name=msa_search
