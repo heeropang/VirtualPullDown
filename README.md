@@ -418,7 +418,7 @@ figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 ### :asterisk: Examples for each function
 Running the script will produce concatenated PAE plot below, which allow a quick comparison of PAE plots
 
-![PAE figure](./postprocessing/figures/Nm60_pae.png)
+![PAE figure](./postprocessing/figures/Bt24_pae.png)
 
 <details>
    <summary> :rocket: Click here for the python script </summary>
@@ -509,7 +509,7 @@ Running the script will produce concatenated PAE plot below, which allow a quick
 
 And a pTM ipTM plot, which concurrently allows users to quickly navigate and interpret the results. 
 
-![pTM and ipTM plot](./postprocessing/figures/Nm60.png)
+![pTM and ipTM plot](./postprocessing/figures/Bt24.png)
 
 <details>
    <summary> :rocket: Click here for the python script </summary>
