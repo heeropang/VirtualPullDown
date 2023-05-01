@@ -415,7 +415,7 @@ figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
 
 --------------------------------------
 
-### :asterisk: ['Examples for each function'](https://github.com/heeropang/VirtualPullDown/tree/main/postprocessing/figures)
+### :asterisk: ['Examples of output files'](https://github.com/heeropang/VirtualPullDown/tree/main/postprocessing/figures)
 Running the script will produce concatenated PAE plot below, which allow a quick comparison of PAE plots
 
 ![PAE figure](./postprocessing/figures/Bt24_pae.png)
