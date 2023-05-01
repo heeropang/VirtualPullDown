@@ -38,6 +38,11 @@ This package needs --['BIO'](https://biopython.org),--['openpyxl'](https://foss.
 Here are the two ways you can run the script...
 ![example](./preprocessing/figures/command_template_auto.png)
 
+<details>
+   <summary>Click me</summary>
+   ###Python codes
+</details>
+
 ```Python
 #!/usr/bin/env python
 """
