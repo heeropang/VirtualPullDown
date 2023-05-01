@@ -335,14 +335,6 @@ This package needs --['numpy'](https://numpy.org/), --['pillow'](https://pillow.
 ### :star: One step post-processing with `makefig_auto.py`
 The code returns a concatenated figure of PAE and plots of pTM and ipTM.
 
-Here are the two ways you can run the script...
-
-![example](./postprocessing/figures/command_makefig_auto.png)
-
-pTM and ipTM plot and concatenated PAE figure will be saved in pdf files...
-
-![example](./postprocessing/figures/prompt_makefig_auto.png)
-
 <details>
    <summary> :rocket: Click here for the python script </summary>
    
@@ -412,6 +404,14 @@ figures=['%s.eps'%(bait_name),'%s_pae.png'%(bait_name)]
    convert_to_pdf(figures)
    ```
 </details>
+
+Here are the two ways you can run the script...
+
+![example](./postprocessing/figures/command_makefig_auto.png)
+
+pTM and ipTM plot and concatenated PAE figure will be saved in pdf files...
+
+![example](./postprocessing/figures/prompt_makefig_auto.png)
 
 --------------------------------------
 
