@@ -25,7 +25,7 @@ Once the protein sequence of the region to truncate is decided, then close PyMol
 ```
 Please enter a protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:HKQD
 Found pattern 'HKQD' in Bt24 at positions 14-17
-Do you want to truncate N-terminal of the motif or C-terminal of the motif(n or c): n
+Do you want to truncate N-terminal of the motif or C-terminal of the motif? (n or c): n
 ```
 Truncating N-terminal from from the motif will generate bait_truncated.fasta 
 ```
@@ -108,7 +108,7 @@ HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
        else:
            print(f"Error: Pattern not found. Please check the sequence again...\n")
            exit(1)
-   ques=input("Do you want to truncate N-terminal of the motif or C-terminal of the motif(n or c): ")
+   ques=input("Do you want to truncate N-terminal of the motif or C-terminal of the motif? (n or c): ")
    if ques.lower()=='n':
        with open (fasta_file) as f:
            data=f.readlines()
