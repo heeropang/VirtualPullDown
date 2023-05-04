@@ -8,6 +8,21 @@ The `ESMFold_local` uses [ESMFold](https://colab.research.google.com/github/sokr
 ## Usage
 The script asks for amino acid sequence (limited to < 200) to be predicted and returns an ouput file in pdb. The predicted structure will be displayed in PyMol for the user to decide the region to truncate. Once PyMol closes, the user can input the unique protein sequence (at least 4 residues or longer) of the region to truncate. The user can also decide to truncate N-terminus or C-terminus of the specified region.
 
+Here are the two ways you can run the script...
+```
+python3 ESMFold_local.py
+or
+python3 ESMFold_local.py KEWYINYKADFEKHKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN... # Provide the sequence to be predicted
+```
+```
+Opening pymol to visualize the predicted structure...
+Please identify the protein sequence of the region you wish to truncate...
+```
+```
+Please enter a protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:HKQD
+Found pattern 'HKQD' in Bt24 at positions 14-17
+Do you want to truncate N-terminal of the motif or C-terminal of the motif(n or c): n
+```
 <details>
    <summary> :rocket: Click here for the python script </summary>
    
