@@ -27,7 +27,11 @@ Please enter a protein sequence of the region (4-5 residues) you wish to truncat
 Found pattern 'HKQD' in Bt24 at positions 14-17
 Do you want to truncate N-terminal of the motif or C-terminal of the motif(n or c): n
 ```
-
+Truncating N-terminal from from the motif will generate bait_truncated.fasta 
+```
+>Bt24
+HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
+```
 <details>
    <summary> :rocket: Click here for the python script </summary>
    
