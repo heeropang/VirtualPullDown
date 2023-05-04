@@ -6,7 +6,7 @@ The `ESMFold_local` uses [ESMFold](https://colab.research.google.com/github/sokr
 
 -----------------------------
 ## Usage
-The script asks for amino acid sequence (limited to < 200) to be predicted and returns an ouput file in pdb. The predicted structure will be displayed in PyMol for the user to decide the region to truncate. Once PyMol closes, the user can input the unique protein sequence (at least 4 residues or longer) of the region to truncate. The user can also decide to truncate N-terminus or C-terminus of the specified region.
+The script asks for amino acid sequence (limited to < 400 residues) to be predicted and returns an ouput file in pdb. The predicted structure will be displayed in PyMol for the user to decide the region to truncate. Once PyMol closes, the user can input the unique protein sequence (at least 4 residues or longer) of the region to truncate. The user can also decide to truncate N-terminus or C-terminus of the specified region.
 
 Here are the two ways you can run the script...
 ```
@@ -45,23 +45,53 @@ HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
    from run import pdb_to_fasta
    from Bio import SeqIO
    import re
+   import argparse
+
    #######################################
    path        ='./'
    bait_name   ='Bt24'
    #######################################
    pdb_file    =f"{bait_name}.pdb"
    output_name =bait_name
-   
+
+   parser = argparse.ArgumentParser(description='Predict protein structure based on the amino acid sequence provided using ESMFold')
+   parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of fasta')
+   parser.add_argument('sequence_given', metavar='sequence_given', type=str, nargs='?', default=None, help='Protein Sequence')
+   args = parser.parse_args()
+
    url = "https://api.esmatlas.com/foldSequence/v1/pdb/"
-   if len(sys.argv) > 1:
-       protein_sequence = sys.argv[1]
+
+   if args.bait_name_given and args.sequence_given:
+       bait_name = args.bait_name_given
+       protein_sequence=args.sequence_given
+       print(f"Name of integrase: {args.bait_name_given}")
+       print(f"Protein sequence:{args.sequence_given}")
+   elif len(str(args.bait_name_given))>=10:
+       user_input=input("is this the name of fasta? (y or n) ")
+       if user_input.lower() == "y":
+           print("Please provide the protein sequence.")
+           protein_sequence= input("Please enter a protein sequence: ")
+       elif user_input.lower()=="n":
+           bait_name= input("Please enter the name of fasta: ")
+           protein_sequence=args.bait_name_given
+           print(f"Using the file name {bait_name} and the protein sequence provided")
+   elif len(str(args.bait_name_given))<=10:
+       user_input=input("is this the name of fasta? (y or n) ")
+       if user_input.lower() == "y":
+           print("Please provide the protein sequence.")
+           protein_sequence= input("Please enter a protein sequence: ")
+       elif user_input.lower()=="n":
+           bait_name= input("Please enter the name of fasta: ")
+           protein_sequence=args.bait_name_given
+           print(f"Using the file name {bait_name} and the protein sequence provided")
    else:
+       bait_name = bait_name
        print("Error: Protein sequence not provided.")
        protein_sequence= input("Please enter a protein sequence: ")
        if not protein_sequence:
            print("Error: Protein sequence not provided.")
            sys.exit()
-
+   print("The number of sequence submitted= "+str(len(protein_sequence))+"  ##The structure prediction is limited to <400 residues..")
    # Find the path of pymol
    pymol_path = os.popen("which pymol").read().strip()
 
@@ -89,10 +119,11 @@ HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
        subprocess.call("echo Opening pymol to visualize the predicted structure... \n", shell=True)
        subprocess.call("echo Please identify the protein sequence of the region you wish to truncate... \n", shell=True)
        os.system(f"{pymol_path} -p {pdb_file}")
+       seq_to_cut=input("Please enter a protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:")
    else:
        print(f"Error: {response.status_code}")
-   seq_to_cut=input("Please enter a protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:")
-   
+       sys.exit()
+
    # Open the FASTA file
    fasta_file = f"{output_name}.fasta"
    for record in SeqIO.parse(fasta_file, "fasta"):
@@ -108,7 +139,7 @@ HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
        else:
            print(f"Error: Pattern not found. Please check the sequence again...\n")
            exit(1)
-   ques=input("Do you want to truncate N-terminal of the motif or C-terminal of the motif? (n or c): ")
+   ques=input("Do you want to keep N-terminal or C-terminal part from the motif? (n or c): ")
    if ques.lower()=='n':
        with open (fasta_file) as f:
            data=f.readlines()
@@ -117,7 +148,7 @@ HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
            seq = data[i+1].strip()
            pattern_pos=re.search(pattern, seq)
            if pattern_pos:
-               truncated_seq=seq[pattern_pos.start():]
+               truncated_seq=seq[:pattern_pos.start()]
                sys.stdout=open(f"{output_name}_bait_truncated.fasta","w")
                print(seq_id)
                print(truncated_seq)
@@ -129,7 +160,7 @@ HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
            seq = data[i+1].strip()
            pattern_pos=re.search(pattern, seq)
            if pattern_pos:
-               truncated_seq=seq[:pattern_pos.start()]
+               truncated_seq=seq[pattern_pos.start():]
                sys.stdout=open(f"{output_name}_bait_truncated.fasta","w")
                print(seq_id)
                print(truncated_seq)
