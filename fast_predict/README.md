@@ -2,7 +2,7 @@
 <!-- What is this for? -->
 **ESMFold** is a deep neural network-based method for predicting protein structure from amino acid sequence, which features up to 60x faster predictions compared to the current state-of-the-art structural prediction method. This is ideal for users when quickly deciding where to truncate the protein sequence (for the purpose of domain-wise analysis and speeding up the computation) if the predicted structure of interest is provided within seconds.
 
-The `ESMFold_local` uses ESMFold to quickly generate predicted structure and asks for user inputs (sequence motif) to truncate protein sequence based on the predicted model. The script returns truncated fasta sequence to be used for `VirtualPullDown`. 
+The `ESMFold_local` uses [ESMFold](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/ESMFold.ipynb) to quickly generate predicted structure and asks for user inputs (sequence motif) to truncate protein sequence based on the predicted model. The script returns truncated fasta sequence to be used for `VirtualPullDown`. 
 
 -----------------------------
 ## Usage
