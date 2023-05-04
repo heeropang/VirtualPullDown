@@ -110,3 +110,5 @@ The script asks for amino acid sequence (limited to < 200) to be predicted and r
                print(seq_id)
                print(truncated_seq)
    ```
+</details>
+
