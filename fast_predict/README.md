@@ -6,13 +6,13 @@ The `ESMFold_local` uses [ESMFold](https://colab.research.google.com/github/sokr
 
 -----------------------------
 ## Usage
-The script asks for amino acid sequence (limited to < 400 residues) to be predicted and returns an ouput file in pdb. The predicted structure will be displayed in PyMol for the user to decide the region to truncate. Once PyMol closes, the user can input the unique protein sequence (at least 4 residues or longer) of the region to truncate. The user can also decide to truncate N-terminus or C-terminus of the specified region.
+The script asks for amino acid sequence (limited to < 400 residues) to be predicted and returns an ouput file in pdb. The predicted structure will be displayed in PyMol for the user to decide the region to truncate. Once PyMol closes, the user can input the unique protein sequence (at least 4 residues or longer if needed) of the region to truncate. The user can also decide to truncate N-terminus or C-terminus of the specified region.
 
 Here are the two ways you can run the script...
 ```
-./ESMFold_local.py #The script will ask for the protein sequence 
+./ESMFold_local.py #The script will ask for the name of fasta and the protein sequence (see below for example)
 or
-./ESMFold_local.py KEWYINYKADFEKHKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN... # Provide the sequence to be predicted
+./ESMFold_local.py Bt24 KEWYINYKADFEKHKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN... 
 ```
 Then, the script will utilize PyMol to visualize the predicted structure...
 ```
@@ -21,13 +21,15 @@ Please identify the protein sequence of the region you wish to truncate...
 ```
 ![example](./example/pymol_example.png)
 
-Once the protein sequence of the region to truncate is decided, then close PyMol and follow the prompts...
+Once the protein sequence of the region to truncate is decided, then close PyMol and type the unique squence into the prompt...
+The script will search the pattern and specify the first occurence to be the region to truncate.
+The user can choose from either N-terminal or C-terminal from the region to keep.
 ```
-Please enter a protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:HKQD
+Please enter the unique protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:HKQD
 Found pattern 'HKQD' in Bt24 at positions 14-17
-Do you want to truncate N-terminal of the motif or C-terminal of the motif? (n or c): n
+Do you want to keep N-terminal or C-terminal part from the motif? (n or c): c
 ```
-Truncating N-terminal from from the motif will generate bait_truncated.fasta 
+The script will keep the C-terminal part starting with the motif and return the bait_truncated.fasta used for VirtualPulldown 
 ```
 >Bt24
 HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
