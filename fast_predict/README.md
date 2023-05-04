@@ -10,19 +10,23 @@ The script asks for amino acid sequence (limited to < 200) to be predicted and r
 
 Here are the two ways you can run the script...
 ```
-python3 ESMFold_local.py
+./ESMFold_local.py #The script will ask for the protein sequence 
 or
-python3 ESMFold_local.py KEWYINYKADFEKHKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN... # Provide the sequence to be predicted
+./ESMFold_local.py KEWYINYKADFEKHKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN... # Provide the sequence to be predicted
 ```
+Then, the script will utilize PyMol to visualize the predicted structure...
 ```
 Opening pymol to visualize the predicted structure...
 Please identify the protein sequence of the region you wish to truncate...
 ```
+
+Once the protein sequence of the region to truncate is decided, then close PyMol and follow the prompts...
 ```
 Please enter a protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:HKQD
 Found pattern 'HKQD' in Bt24 at positions 14-17
 Do you want to truncate N-terminal of the motif or C-terminal of the motif(n or c): n
 ```
+
 <details>
    <summary> :rocket: Click here for the python script </summary>
    
