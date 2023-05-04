@@ -28,11 +28,14 @@ if args.bait_name_given and args.sequence_given:
     protein_sequence=args.sequence_given
     print(f"Name of integrase: {args.bait_name_given}")
     print(f"Protein sequence:{args.sequence_given}")
+elif not args.bait_name_given and not args.sequence_given:
+    bait_name= input("Please enter the name of fasta: ")
+    protein_sequence=input("Please enter the protein sequence: ") 
 elif len(str(args.bait_name_given))>=10:
     user_input=input("is this the name of fasta? (y or n) ")
     if user_input.lower() == "y":
         print("Please provide the protein sequence.")
-        protein_sequence= input("Please enter a protein sequence: ")
+        protein_sequence= input("Please enter the protein sequence: ")
     elif user_input.lower()=="n":
         bait_name= input("Please enter the name of fasta: ")
         protein_sequence=args.bait_name_given
@@ -41,7 +44,7 @@ elif len(str(args.bait_name_given))<=10:
     user_input=input("is this the name of fasta? (y or n) ")
     if user_input.lower() == "y":
         print("Please provide the protein sequence.")
-        protein_sequence= input("Please enter a protein sequence: ")
+        protein_sequence= input("Please enter the protein sequence: ")
     elif user_input.lower()=="n":
         bait_name= input("Please enter the name of fasta: ")
         protein_sequence=args.bait_name_given
@@ -49,7 +52,7 @@ elif len(str(args.bait_name_given))<=10:
 else:
     bait_name = bait_name
     print("Error: Protein sequence not provided.")
-    protein_sequence= input("Please enter a protein sequence: ")
+    protein_sequence= input("Please enter the protein sequence: ")
     if not protein_sequence:
         print("Error: Protein sequence not provided.")
         sys.exit()
@@ -81,7 +84,7 @@ if response.status_code == 200:
     subprocess.call("echo Opening pymol to visualize the predicted structure... \n", shell=True)
     subprocess.call("echo Please identify the protein sequence of the region you wish to truncate... \n", shell=True)
     os.system(f"{pymol_path} -p {pdb_file}")
-    seq_to_cut=input("Please enter a protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:")
+    seq_to_cut=input("Please enter an unique sequence pattern of the region (4-5 residues; longer if necessary) to truncate i.e. DEFQ:")
 else:
     print(f"Error: {response.status_code}")
     sys.exit()
