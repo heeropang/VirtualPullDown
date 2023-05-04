@@ -70,7 +70,7 @@ for record in SeqIO.parse(fasta_file, "fasta"):
     else:
         print(f"Error: Pattern not found. Please check the sequence again...\n")
         exit(1)
-ques=input("Do you want to truncate N-terminal of the motif or C-terminal of the motif(n or c): ")
+ques=input("Do you want to truncate N-terminal of the motif or C-terminal of the motif? (n or c): ")
 if ques.lower()=='n':
     with open (fasta_file) as f:
         data=f.readlines()
