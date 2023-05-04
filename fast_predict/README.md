@@ -1,12 +1,14 @@
-# ESMFold_local
+# ESMFold_local.py for efficient sequence truncation
 <!-- What is this for? -->
-**ESMFold** is a deep neural network-based method for predicting protein structure from amino acid sequence, which features up to 60x faster predictions compared to the current state-of-the-art structural prediction method. This is ideal for users when quickly deciding where to truncate the protein sequence (for the purpose of domain-wise analysis and speeding up the computation) if the predicted structure of interest is provided within seconds.
+Protein structure prediction has become a crucial preliminary step in structural biology, as it may provide insights into the functional mechanisms and interactions of proteins. Conventionally, we rely on homology search, sequence alignment, or secondary structure predictions to identify the region of interest for studying domain-wise structures. However, these methods can be time-consuming and may not always yield accurate results. ESMFold_local provides an efficient way to identify those regions within seconds, thereby accelerating the progress in drug discovery and related fields.
 
-The `ESMFold_local` uses [ESMFold](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/ESMFold.ipynb) to quickly generate predicted structure without having to install ESMFold and download param files. The script will allow user to input protein sequence of interest to predict structure and make decision on truncating the protein sequence based on the predicted model. The script generates truncated fasta sequence to be used for `VirtualPullDown`. 
+**ESMFold** is a deep neural network-based method for predicting protein structure from the amino acid sequence. It offers significant speed improvements, up to 60x faster than the current state-of-the-art structural prediction method. This makes it ideal for users who need to quickly decide where to truncate the protein sequence for domain-wise analysis and to speed up computation.
+
+The `ESMFold_local` script uses the [ESMFold](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/ESMFold.ipynb) method to quickly generate predicted protein structure, but without having to install ESMFold and download param files. With this script, users can input a protein sequence of interest to predict its structure and make decisions on truncating the sequence based on the predicted model. The script generates a truncated fasta sequence that can be used for `VirtualPullDown`. 
 
 -----------------------------
 ## Usage
-The script asks for amino acid sequence (limited to < 400 residues) to be predicted and returns an ouput file in pdb. The predicted structure will be displayed in PyMol for the user to decide the region to truncate. Once PyMol closes, the user can input the unique protein sequence (at least 4 residues or longer if needed) of the region to truncate. The user can also decide to truncate N-terminus or C-terminus of the specified region.
+The script prompts the user to input an amino acid sequence, which is limited to < 400 residues, and then predicts its structure. The predicted structure is displayed in PyMol, allowing the user to determine the region to truncate. Once PyMol is closed, the user can input the unique protein sequence of the region to be truncated, which should be at least 4 residues long or longer if needed. The user can also choose to truncate either the N-terminus or C-terminus of the specified region.
 
 Here are the two ways you can run the script...
 ```
