@@ -160,7 +160,7 @@ Output files will be stored in the ready folder...
 ![example](./preprocessing/figures/output_template_auto.png)
 
 --------------------------------------------
-### :asterisk: ['Examples of output files'](https://github.com/heeropang/VirtualPullDown/tree/main/preprocessing/examples)
+### :asterisk: [Examples of output files](https://github.com/heeropang/VirtualPullDown/tree/main/preprocessing/examples)
 <details>
    <summary> :rocket: Click here for the python script </summary>
    
