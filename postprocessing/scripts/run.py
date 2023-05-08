@@ -12,6 +12,50 @@ from PIL import Image, ImageDraw, ImageFont
 import json
 import numpy as np
 
+import os
+import sys
+
+def pdb_to_fasta(path, pdb_file, output_name):
+    aa = {
+        "GLY": "G",
+        "ALA": "A",
+        "SER": "S",
+        "PRO": "P",
+        "VAL": "V",
+        "THR": "T",
+        "CYS": "C",
+        "LEU": "L",
+        "ILE": "I",
+        "ASN": "N",
+        "ASP": "D",
+        "GLN": "Q",
+        "LYS": "K",
+        "GLU": "E",
+        "MET": "M",
+        "HIS": "H",
+        "PHE": "F",
+        "ARG": "R",
+        "TYR": "Y",
+        "TRP": "W",
+        "MSE": "M",
+        "UNK": "X"
+    }
+    resn = []
+    seq = ""
+    txt_path = os.path.join(path, pdb_file)
+    with open(txt_path) as file:
+        for line in file:
+            try:
+                c1, c2, c3, c4 = line.split()[:4]
+                if c3 == "CA":
+                    resn.append(c4)
+            except ValueError:
+                pass
+    for i in resn:
+        seq += aa[i]
+    with open(os.path.join(path, f"{output_name}.fasta"), "w") as f:
+        f.write(f">{output_name}\n{seq}")
+
 def convert_to_pdf(figures):
     for figure in figures:
         ext=os.path.splitext(figure)[1]
