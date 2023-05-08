@@ -11,7 +11,7 @@ setuptools.setup(
     description="A package for virtual pulldown",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/heeropang/VirtualPullDown",
+    url="https://github.com/heeropang/VirtualPullDown/scripts",
     keywords = ['PDB', 'structure biology', 'protein', 'analysis', 'ColabFold', 'AlphaFold'],
     packages=setuptools.find_packages(),
     classifiers=[
