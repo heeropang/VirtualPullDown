@@ -13,8 +13,6 @@ import argparse
 path        ='./'
 bait_name   ='Bt24'
 #######################################
-pdb_file    =f"{bait_name}.pdb"
-output_name =bait_name
 
 parser = argparse.ArgumentParser(description='Predict protein structure based on the amino acid sequence provided using ESMFold')
 parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of fasta')
@@ -56,6 +54,8 @@ else:
     if not protein_sequence:
         print("Error: Protein sequence not provided.")
         sys.exit()
+pdb_file    =f"{bait_name}.pdb"
+output_name =bait_name
 print("The number of sequence submitted= "+str(len(protein_sequence))+"  ##The structure prediction is limited to <400 residues..")
 # Find the path of pymol
 pymol_path = os.popen("which pymol").read().strip()
