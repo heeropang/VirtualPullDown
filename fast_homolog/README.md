@@ -1,4 +1,4 @@
-# find_homologs.py 
+# find_homologs.py for efficient homology search
 <!-- What is this for? -->
 Conventionally, we use sequence alignment tools such as protein blast, followed by downstream bioinformatics tools such as secondary structure predictions, to identify evolutionarily conserved genes from the sequence of interest. These methods can be time-consuming and often limited to closely related homologs. Find_homologs offers a fast and efficient alternative by utilizing a protein blast-style search for homologs based on structural similarity. This approach allows for the inclusion of evolutionarily distant homologs in the bioinformatic procedure
 
