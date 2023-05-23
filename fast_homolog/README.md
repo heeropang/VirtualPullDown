@@ -1,40 +1,59 @@
-# ESMFold_local.py for efficient sequence truncation
+# find_homologs.py for efficient structure based homolog search
 <!-- What is this for? -->
-Protein structure prediction has become a crucial preliminary step in structural biology, as it may provide insights into the functional mechanisms and interactions of proteins. Conventionally, we rely on homology search, sequence alignment, or secondary structure predictions to identify the region of interest for studying domain-wise structures. However, these methods can be time-consuming and may not always yield accurate results. ESMFold_local provides an efficient way to identify those regions within seconds, thereby accelerating the progress in drug discovery and related fields.
+Conventionally, we use sequence alignment tools such as protein blast, followed by downstream bioinformatics tools such as secondary structure predictions, to identify evolutionarily conserved genes from the sequence of interest. These methods can be time-consuming and often limited to closely related homologs. Find_homologs offers a fast and efficient alternative by utilizing a protein blast-style search for homologs based on structural similarity. This approach allows for the inclusion of evolutionarily distant homologs in the bioinformatic procedure
 
-**ESMFold** is a deep neural network-based method for predicting protein structure from the amino acid sequence. It offers significant speed improvements, up to 60x faster than the current state-of-the-art structural prediction method. This makes it ideal for users who need to quickly decide where to truncate the protein sequence for domain-wise analysis and to speed up computation.
+**Foldseek** is a sequence alignment tool which converts amino acid sequences into 3Di sequences containing nearest neighbor structural elements for alignment. The software incorporates a trained neural network model which dramatically improved processing speed to seconds compared to the conventional sequeunce alignement softwares such as Dali or TMalign which usually takes days or weeks. This makes it ideal for users who need to quickly decide where to truncate the protein sequence for domain-wise analysis and to speed up computation.
 
-The `ESMFold_local` script uses the [ESMFold](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/ESMFold.ipynb) method to quickly generate predicted protein structure, but without having to install ESMFold and download param files. With this script, users can input a protein sequence of interest to predict its structure and make decisions on truncating the sequence based on the predicted model. The script generates a truncated fasta sequence that can be used for `VirtualPullDown`. 
+The `find_homologs` script uses the [ESMFold](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/ESMFold.ipynb) to quickly generate predicted protein structure, but without having to install ESMFold and download param files. Then, the [Foldseek](https://search.foldseek.com) to generate 3di sequences used for structure based homologs search.
 
 -----------------------------
 ## Usage
-The script prompts the user to input an amino acid sequence, which is limited to < 400 residues, and then predicts its structure. The predicted structure is displayed in PyMol, allowing the user to determine the region to truncate. Once PyMol is closed, the user can input the unique protein sequence of the region to be truncated, which should be at least 4 residues long or longer if needed. The user can also choose to truncate either the N-terminus or C-terminus of the specified region.
+The script requires an user input of an amino acid sequence (limited to < 400 residues), which generates a predicted structure and returns a list the evolutionarily distant homologs.
 
-Here are the two ways you can run the script...
+Here is an example how you can run the script...
 ```
-./ESMFold_local.py #The script will ask for the name of fasta and the protein sequence (see below for example)
-or
-./ESMFold_local.py Bt24 KEWYINYKADFEKHKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN... 
+./find_homologs.py KEWYINYKADFEKHKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN 
 ```
-Then, the script will utilize PyMol to visualize the predicted structure...
-```
-Opening pymol to visualize the predicted structure...
-Please identify the protein sequence of the region you wish to truncate...
-```
-![example](./example/pymol_example.png)
 
-Once the protein sequence of the region to truncate is decided, then close PyMol and type the unique squence into the prompt...
-The script will search the pattern and specify the first occurence to be the region to truncate.
-The user can choose from either N-terminal or C-terminal from the region to keep.
 ```
-Please enter the unique protein sequence of the region (4-5 residues) you wish to truncate i.e. DEFQ:HKQD
-Found pattern 'HKQD' in Bt24 at positions 14-17
-Do you want to keep N-terminal or C-terminal part from the motif? (n or c): c
+The number of residues submitted = 47  ##The structure prediction is limited to <400 residues..
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 98703  100    68  100 98635     30  43936  0:00:02  0:00:02 --:--:-- 43985
 ```
-The script will keep the C-terminal part starting with the motif and return the bait_truncated.fasta used for VirtualPulldown 
+The script will then prepare a list of hits 
 ```
->Bt24
-HKQDDKLKETQVIQMNEAALRKLEKELVDVQKQKN
+{"id":"HsvHhnelGZq9jcQfeHRXopF3GbwHt2dfZ7IqIw","status":"COMPLETE"}
+
+Job is completed... Preparing list of hits...
+COMPLETE
+Targets       Descriptions                                                     Prob.      E-value    Scientific Name
+AF-I1L8R7     HECT domain-containing protein                      0.076      4.331      Glycine max
+AF-A0A6B5J4Z7 Mobile element-associated protein                   1.000      1.526e-16  Staphylococcus aureus
+AF-A0A6B5FYA7 Mobile element-associated protein                   1.000      2.258e-15  Staphylococcus aureus
+AF-Q9F0K3     Orf15                                               1.000      1.098e-14  Staphylococcus aureus
+AF-A0A024P946 Uncharacterized protein                             1.000      0.0007996  Halobacillus karajensis
+AF-A0A3A0W5L9 PriCT_1 domain-containing protein                   1.000      1.249e-05  Staphylococcus gallinarum
+AF-A0A0M4FYI7 Uncharacterized protein                             1.000      0.00258    Bacillus sp. FJAT-22090
+AF-A0A2T5G4D9 Prophage Lp4 protein 7, DNA replication             1.000      0.0005004  Hydrogenibacillus schlegelii
+AF-A0A6P1X0W8 Mobile element-associated protein                   1.000      1.579e-05  Staphylococcus sp. MI 10-1553
+AF-A0A4P7GWG3 DNA primase                                         1.000      0.008827   Thermaerobacter sp. FW80
+AF-A0A4S2EI77 DNA replication protein                             1.000      0.002901   Ligilactobacillus murinus
+AF-A0A5F0TSU8 PriCT_1 domain-containing protein                   1.000      4.275e-05  Mammaliicoccus lentus
+AF-A0A4Y9H9D0 Mobile element-associated protein                   1.000      1.048e-05  Gemella sp. WT2a
+AF-A0A7U3TFS7 Bifunctional DNA primase/polymerase                 1.000      0.008325   Limosilactobacillus fermentum
+AF-A0A4P6YQZ5 Uncharacterized protein                             1.000      0.01183    Periweissella cryptocerci
+AF-A0A679JGJ5 Uncharacterized protein                             1.000      0.0008989  Methylobacterium bullatum
+AF-A0A4R5Y7R8 PriCT_1 domain-containing protein                   1.000      3.008e-05  Macrococcus bohemicus
+AF-A0A529AQI6 DNA primase                                         1.000      0.01254    Mesorhizobium sp.
+AF-A0A3D8VE11 DNA primase                                         1.000      0.004914   Halobacillus trueperi
+AF-A0A3M0Z5Q0 DNA primase                                         1.000      0.003458   Gammaproteobacteria bacterium
+AF-A0A1W7ACH7 PriCT_1 domain-containing protein                   1.000      0.001523   Macrococcus canis
+AF-A0A0H4IXH5 PriCT_1 domain-containing protein                   1.000      0.01254    Methylophilales bacterium MBRS-H7
+AF-A0A0A8K7G8 Uncharacterized protein                             1.000      0.009924   Methyloceanibacter caenitepidi
+AF-A0A1D2SLS0 Uncharacterized protein                             1.000      0.0006707  Lautropia sp. SCN 69-89
+
 ```
 <details>
    <summary> :rocket: Click here for the python script </summary>
@@ -46,66 +65,20 @@ import os
 import sys
 import requests
 import subprocess
-from run import pdb_to_fasta
-from Bio import SeqIO
-import re
-import argparse
+import json
+from requests import get
+from time import sleep
 
-#######################################
-path        ='./'
-bait_name   ='Bt24'
-#######################################
-pdb_file    =f"{bait_name}.pdb"
-output_name =bait_name
-
-parser = argparse.ArgumentParser(description='Predict protein structure based on the amino acid sequence provided using ESMFold')
-parser.add_argument('bait_name_given', metavar='bait_name_given', type=str, nargs='?', default=None, help='Name of fasta')
-parser.add_argument('sequence_given', metavar='sequence_given', type=str, nargs='?', default=None, help='Protein Sequence')
-args = parser.parse_args()
+# This script incoporates ESMFold to predict the structure from the protein sequence. Then, uses Foldseek to search for structure-based homologs 
+# First Script - Generate PDB from Protein Sequence
 
 url = "https://api.esmatlas.com/foldSequence/v1/pdb/"
-
-if args.bait_name_given and args.sequence_given:
-    bait_name = args.bait_name_given
-    protein_sequence=args.sequence_given
-    print(f"Name of integrase: {args.bait_name_given}")
-    print(f"Protein sequence:{args.sequence_given}")
-elif not args.bait_name_given and not args.sequence_given:
-    bait_name= input("Please enter the name of fasta: ")
-    protein_sequence=input("Please enter the protein sequence: ") 
-elif len(str(args.bait_name_given))>=10:
-    user_input=input("is this the name of fasta? (y or n) ")
-    if user_input.lower() == "y":
-        print("Please provide the protein sequence.")
-        protein_sequence= input("Please enter the protein sequence: ")
-    elif user_input.lower()=="n":
-        bait_name= input("Please enter the name of fasta: ")
-        protein_sequence=args.bait_name_given
-        print(f"Using the file name {bait_name} and the protein sequence provided")
-elif len(str(args.bait_name_given))<=10:
-    user_input=input("is this the name of fasta? (y or n) ")
-    if user_input.lower() == "y":
-        print("Please provide the protein sequence.")
-        protein_sequence= input("Please enter the protein sequence: ")
-    elif user_input.lower()=="n":
-        bait_name= input("Please enter the name of fasta: ")
-        protein_sequence=args.bait_name_given
-        print(f"Using the file name {bait_name} and the protein sequence provided")
+if len(sys.argv) > 1:
+    protein_sequence = sys.argv[1]
 else:
-    bait_name = bait_name
     print("Error: Protein sequence not provided.")
-    protein_sequence= input("Please enter the protein sequence: ")
-    if not protein_sequence:
-        print("Error: Protein sequence not provided.")
-        sys.exit()
-print("The number of sequence submitted= "+str(len(protein_sequence))+"  ##The structure prediction is limited to <400 residues..")
-# Find the path of pymol
-pymol_path = os.popen("which pymol").read().strip()
-
-if not pymol_path:
-    print("Error: PyMOL is not installed.")
     sys.exit()
-
+print("The number of residues submitted = "+str(len(protein_sequence))+"  ##The structure prediction is limited to <400 residues..\n")
 # Define the request headers
 headers = {
     "Content-Type": "text/plain"
@@ -120,56 +93,110 @@ response = requests.post(url, headers=headers, data=data)
 # Check the status code of the response
 if response.status_code == 200:
     # Print the raw response text
-    with open(f"{pdb_file}", "w") as f:
+    with open("ESMFold_structure.pdb", "w") as f:
         f.write(response.text)
-    pdb_to_fasta(path, pdb_file, output_name)
-    subprocess.call("echo Opening pymol to visualize the predicted structure... \n", shell=True)
-    subprocess.call("echo Please identify the protein sequence of the region you wish to truncate... \n", shell=True)
-    os.system(f"{pymol_path} -p {pdb_file}")
-    seq_to_cut=input("Please enter an unique sequence pattern of the region (4-5 residues; longer if necessary) to truncate i.e. DEFQ:")
 else:
     print(f"Error: {response.status_code}")
     sys.exit()
 
-# Open the FASTA file
-fasta_file = f"{output_name}.fasta"
-for record in SeqIO.parse(fasta_file, "fasta"):
-    # Search for a pattern using a regular expression
-    pattern = seq_to_cut
-    match = re.search(pattern, str(record.seq))
-    if match:
-        # Get the start and end positions of the match
-        start_pos = match.start() + 1  # Add 1 to convert from 0-based to 1-based numbering
-        end_pos = match.end()
-        # Do something with the start and end positions
-        print(f"Found pattern '{pattern}' in {record.id} at positions {start_pos}-{end_pos}") 
-    else:
-        print(f"Error: Pattern not found. Please check the sequence again...\n")
-        exit(1)
-ques=input("Do you want to keep N-terminal or C-terminal part from the motif? (n or c): ")
-if ques.lower()=='n':
-    with open (fasta_file) as f:
-        data=f.readlines()
-    for i in range (0, len(data), 2):
-        seq_id=data[i].strip()
-        seq = data[i+1].strip()
-        pattern_pos=re.search(pattern, seq)
-        if pattern_pos:
-            truncated_seq=seq[:pattern_pos.start()]
-            sys.stdout=open(f"{output_name}_bait_truncated.fasta","w")
-            print(seq_id)
-            print(truncated_seq)
-elif ques.lower()=='c':
-    with open (fasta_file) as f:
-        data=f.readlines()
-    for i in range (0, len(data), 2):
-        seq_id=data[i].strip()
-        seq = data[i+1].strip()
-        pattern_pos=re.search(pattern, seq)
-        if pattern_pos:
-            truncated_seq=seq[pattern_pos.start():]
-            sys.stdout=open(f"{output_name}_bait_truncated.fasta","w")
-            print(seq_id)
-            print(truncated_seq)
+# Second Script - Obtain List of Homologs from PDB
+
+foldseek_url = "https://search.foldseek.com/api/ticket"
+
+# Check if PDB file exists
+if not os.path.exists("ESMFold_structure.pdb"):
+    print("Error: PDB file not found.")
+    sys.exit()
+
+# Define the cURL command
+curl_command = [
+    "curl",
+    "-X", "POST",
+    "-F", f"q=@ESMFold_structure.pdb",
+    "-F", "mode=3diaa",
+    "-F", "database[]=afdb50",
+    "-F", "database[]=afdb-swissprot",
+    "-F", "database[]=afdb-proteome",
+    ##"-F", "database[]=cath50",
+    ##"-F", "database[]=mgnify_esm30",
+    ##"-F", "database[]=pdb100",
+    ##"-F", "database[]=gmgcl_id",
+    "-F", "taxonomy[]=bacteria",  # Add your taxonomic filter here
+    foldseek_url
+]
+
+# Execute the cURL command
+try:
+    output = subprocess.check_output(curl_command, universal_newlines=True)
+    print(output)
+except subprocess.CalledProcessError as e:
+    print(f"Error executing cURL command: {e}")
+    sys.exit()
+
+# Parse the output to obtain the ticket ID
+ticket = json.loads(output)
+if not ticket:
+    print("Error: Failed to retrieve the ticket ID.")
+    sys.exit()
+
+while True:
+    if ticket['status'] == "ERROR":
+        print("Job encountered an error.")
+        sys.exit(0)
+    elif ticket['status'] == "PENDING":
+        print("Job is still running. Waiting...")
+        sleep(10)
+        results_url=f"https://search.foldseek.com/api/result/{ticket['id']}/0"
+        results_response=get(results_url)
+        try:
+            results=results_response.json()
+            break
+        except json.JSONDecodeError:
+            print("Error decoding JSON response:", results_response.text)
+            continue
+    elif ticket['status'] == "COMPLETE":
+        print("Job is completed... Preparing list of hits...")
+        results_url = f"https://search.foldseek.com/api/result/{ticket['id']}/0"
+        results_response = get(results_url)
+        try:
+            results = results_response.json()
+            break
+        except json.JSONDecodeError:
+            print("Error decoding JSON response:", results_response.text)
+            sys.exit(1)
+print(ticket['status'])    
+print("Job completed... Preparing the list of hits...")
+
+targets       = []
+descriptions  = []
+probabilities = []
+evalues       = []
+taxNames      = []
+for result in results['results']:
+    db = result['db']
+    alignments=result.get('alignments')
+    if alignments:
+        for alignment in alignments:
+            target=alignment['target']
+            prob = alignment['prob']
+            eval = alignment['eval']
+            taxName = alignment['taxName']
+            targets.append(target.split('-F1')[0])
+            descriptions.append(target.split('v4 ')[1])
+            probabilities.append(prob)
+            evalues.append(eval)
+            taxNames.append(taxName)
+
+# Determine the maximum width for the description column
+max_target_width = max(len(target) for target in targets)
+max_description_width = max(len(description) for description in descriptions)
+
+# Print the list of targets
+print(f"{'Targets':<{max_target_width}} {'Descriptions':<{max_description_width}} {'Prob.':<10} {'E-value':<10} {'Scientific Name':<10}")
+for target, description, probability, ev, sciname in zip(targets, descriptions, probabilities, evalues, taxNames):
+    print(f"{target:<{max_target_width}} {description:<{max_description_width}} {probability:<10.3f} {ev:<10} {sciname:<10}")
+print("-" * (10 + max_description_width + 10))
+print("Please copy and paste the link below into a browser for the graphical interface"+'\n')
+print(f"https://search.foldseek.com/result/{ticket['id']}/0")
    ```
 </details>
