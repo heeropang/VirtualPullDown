@@ -29,8 +29,8 @@ curl_command = [
     "-F", f"q=@%s"%(input),
     "-F", "mode=3diaa",
     "-F", "database[]=afdb50",
-    "-F", "database[]=afdb-swissprot",
-    "-F", "database[]=afdb-proteome",
+   ## "-F", "database[]=afdb-swissprot",
+   ## "-F", "database[]=afdb-proteome",
    ## "-F", "database[]=cath50",
    ## "-F", "database[]=mgnify_esm30",
    ## "-F", "database[]=pdb100",
@@ -88,12 +88,14 @@ ws['B1']  = 'Description'
 ws['C1']  = 'Probability'
 ws['D1']  = 'E-value'
 ws['E1']  = 'Scientific Name'
+ws['F1']  = 'Sequence'
 
 targets       = []
 descriptions  = []
 probabilities = []
 evalues       = []
 taxNames      = []
+sequences     = []
 for result in results['results']:
     db = result['db']
     alignments=result.get('alignments')
@@ -103,19 +105,21 @@ for result in results['results']:
             prob = alignment['prob']
             eval = alignment['eval']
             taxName = alignment['taxName']
+            tSeq = alignment['tSeq']
             targets.append(target.split('-F1')[0])
             descriptions.append(target.split('v4 ')[1])
             probabilities.append(prob)
             evalues.append(eval)
             taxNames.append(taxName)
+            sequences.append(tSeq)
 
 # Determine the maximum width for the description column
 max_target_width = max(len(target) for target in targets)
 max_description_width = max(len(description) for description in descriptions)
 
 # Print the list of targets
-for target, description, probability, ev, sciname in zip(targets, descriptions, probabilities, evalues, taxNames):
-    ws.append([target]+ [description]+[probability]+[ev] +[sciname])
+for target, description, probability, ev, sciname, seq in zip(targets, descriptions, probabilities, evalues, taxNames, sequences):
+    ws.append([target]+ [description]+[probability]+[ev] +[sciname] +[seq])
 wb.save("%s_homologs.xlsx"%(filename))
 
 subprocess.call("echo Please copy and paste the link below into a browser for the graphical interface...\n", shell=True)
