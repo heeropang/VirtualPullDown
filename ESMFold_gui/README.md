@@ -5,7 +5,8 @@ Graphical User Interface for ESMFold
 The Graphical User Interface (GUI) for ESMFold is designed to provide users with a convenient way to visualize protein structures based on an amino acid sequence of interest (<400 amino acid residues). 
 
 Here's an overview of its features:
-![example](./examples/ESMFold_gui.png)
+![example](./examples/ESMFold_gui.png =100x100)
+
 **Sequence Input**:   
 The user can copy and paste the amino acid sequence into a designated input field.
 
