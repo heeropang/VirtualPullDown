@@ -5,7 +5,7 @@ Graphical User Interface for ESMFold
 The Graphical User Interface (GUI) for ESMFold is designed to provide users with a convenient way to visualize protein structures based on an amino acid sequence of interest (<400 amino acid residues). 
 
 Here's an overview of its features:
-
+![example](./examples/ESMFold_gui.png)
 **Sequence Input**:   
 The user can copy and paste the amino acid sequence into a designated input field.
 
@@ -19,6 +19,11 @@ By clicking on the "Visualize" button, the user can view the structure in Pymol.
 
 **Sequence Truncation**:   
 The GUI also offers a convenient way to truncate sequences. If the user wants to visualize only a specific portion of the protein, they can input the desired starting and ending positions. The GUI will truncate the sequence accordingly and update the predicted structure and FASTA sequence in real-time.
+
+Here is an example how you can run the script...
+```
+./ESMFold_gui.py
+```
 
 <details>
    <summary> :rocket: Click here for the python script </summary>
