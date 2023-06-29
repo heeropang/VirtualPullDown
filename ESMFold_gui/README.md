@@ -6,7 +6,7 @@ The Graphical User Interface (GUI) for ESMFold is designed to provide users with
 
 Here's an overview of its features:
 
-**Sequence Input**:
+**Sequence Input**:   
 The user can copy and paste the amino acid sequence into a designated input field.
 
 **Prediction Button**:   
