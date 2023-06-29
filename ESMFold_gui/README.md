@@ -6,7 +6,7 @@ The Graphical User Interface (GUI) for ESMFold is designed to provide users with
 
 Here's an overview of its features:
 
-**Sequence Input**: The user can copy and paste the amino acid sequence into a designated input field.
+**Sequence Input**: The user can copy and paste the amino acid sequence into a designated input field.\n
 **Prediction Button**: Once the sequence is pasted, the user can click on the "Predict" button to initiate the structure prediction process. 
 After the prediction is complete, the GUI will automatically generate the predicted protein structure and the corresponding FASTA sequence. 
 **Structure Visualization**: If the user has Pymol installed on their system, the GUI provides an additional button for visualizing the predicted protein structure. 
