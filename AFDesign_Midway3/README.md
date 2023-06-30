@@ -14,6 +14,11 @@ Here's a snippet of how to submit the script on Midway3.
 ```
 sbatch uploader.sbatch
 ```
+After the process, the script will generate the following output files: binder sequence (check log file), target_binder.pdb (designed binder to target structure), and target_binder.mp4 (movie)
+
+https://github.com/heeropang/VirtualPullDown/assets/131874767/54b79344-2537-43f8-9119-8e649ebedc6d
+
+
 <details>
    <summary> :rocket: Click here for the python script </summary>
    
