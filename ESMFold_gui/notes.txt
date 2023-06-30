@@ -1,0 +1,7 @@
+ESMFold_gui requires a PyQt5 module to be installed..
+
+For Apple M# users, try the following method for installing the pyqt5 module.  
+brew install pyqt5
+echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> ~/.bash_profile
+echo 'export PATH="/opt/homebrew/opt/pyqt@5/bin:$PATH"' >> ~/.bash_profile
+source ~/.bash_profile
