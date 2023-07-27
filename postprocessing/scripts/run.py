@@ -161,28 +161,27 @@ def plot_ptm_iptm(bait_name, title_offset, path, f_width, f_height, fontsize, ma
 def concatenate_images(path):
     # Get all PNG files in the directory
     image_files = glob.glob(f'{path}*pae.png')
-
-    # Open all images
-    images = [Image.open(img) for img in sorted(image_files)]
-
+        
+    # Open all images and their corresponding labels
+    images_with_labels = []
+    for img_file in sorted(image_files):
+        image = Image.open(img_file)
+        label = os.path.basename(img_file)
+        images_with_labels.append((image, label))
+        
     # Get dimensions of the first image
-    width, height = images[0].size
-
+    width, height = images_with_labels[0][0].size
+        
     # Create a new image with the same width and the combined height of all images
-    result = Image.new('RGB', (width, height * len(images)), color='white')
-
-    # Paste each image into the result image vertically
-    for i, img in enumerate(images):
-        result.paste(img, (0, i * height))
-
-    # Add a title to each image
+    result = Image.new('RGB', (width, height * len(images_with_labels)), color='white')
+        
+    # Paste each image into the result image vertically along with the labels
     title_font = ImageFont.load_default()
     draw = ImageDraw.Draw(result)
-    title_font_size = 24
-    for i, img_file in enumerate(image_files):
-        label = os.path.basename(img_file)
+    for i, (img, label) in enumerate(images_with_labels):
+        result.paste(img, (0, i * height))
         label_width, label_height = draw.textsize(label, font=title_font)
-        draw.text((0, i * height), label, font=title_font, fill=(0, 0, 0))
+        draw.text((0, i * height), label, font=title_font, fill=(0, 0, 0), size=46)
 
     return result
 
