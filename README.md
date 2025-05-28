@@ -1,10 +1,10 @@
-# Introduction to [`VirtualPullDown`](https://github.com/heeropang/VirtualPullDown/tree/main) package (unpublished)
-<!-- What is this for? -->
-**ColabFold** is a web-based, open-source platform that leverages deep learning models for protein folding and related tasks. It utilizes the power of artificial intelligence to predict protein structures, including multimeric complexes, with remarkable accuracy from their amino acid sequences. 
+# **VirtualPulldown v.1**
 
-A **Pull-down** experiment is a *in-vitro* technique used to study protein-protein interactions, where a `bait` protein is immobilized on a solid support and `prey` proteins are screened for interaction with the bait protein. 
+VirtualPulldown is a command line tool designed to discover phage-encoded recombination directionality factors (RDFs) that specifically interact with large serine integrases (LSIs). It automates the formatting and preparation of input sequence pairs for structure prediction using [LocalColabFold](https://github.com/YoshitakaMo/localcolabfold), streamlining the process for large-scale analyses. 
 
-The `VirtualPulldown` approach combines the concept of pull-down experiments with computational protein structure prediction to provide economical and efficient ways to rapidly screen and study novel protein complexes. While this approach has great potential to accelerate progress in drug discovery and related fields, it is not without its potential disadvantages. As the accuracy of ColabFold's predictions is a crucial aspect of this approach, researchers must exercise careful evaluation and validation before the findings can be considered true protein complex structures. Nonetheless, the VirtualPulldown approach can provide additional information when utilized alongside conventional methods in bioinformatics and structure studies.. :thumbsup:
+The script supports batch processing of multiple genomic sequences, enabling high-throughput identification of candidate RDF-LSI interactions. This makes [VirtualPulldown v.1](https://github.com/heeropang/v_pulldown) ideal for researchers investigating phage LSI recombination systems or exploring protein-protein interactions across diverse datasets. 
+
+For broader applications beyond RDF-LSI systems, see [VirtualPulldown v.2](https://github.com/heeropang/v_pulldown_v2), designed for general users.
 
 ## Getting started with *VirtualPullDown*
 This package streamlines the virtual pulldown experiment through ColabFold by utilizing three steps:
