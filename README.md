@@ -4,7 +4,7 @@ VirtualPulldown is a command line tool designed to discover phage-encoded recomb
 
 The script supports batch processing of multiple genomic sequences, enabling high-throughput identification of candidate RDF-LSI interactions. This makes [VirtualPulldown v.1](https://github.com/heeropang/v_pulldown) ideal for researchers investigating phage LSI recombination systems or exploring protein-protein interactions across diverse datasets. 
 
-For broader applications beyond RDF-LSI systems, see [VirtualPulldown v.2](https://github.com/heeropang/v_pulldown_v2), designed for general users.
+For broader applications beyond RDF-LSI systems, see [VirtualPulldown v.2](https://github.com/heeropang/VirtualPulldown_v.2), designed for general users.
 
 ## Getting started with *VirtualPullDown*
 This package streamlines the virtual pulldown experiment through ColabFold by utilizing three steps:
