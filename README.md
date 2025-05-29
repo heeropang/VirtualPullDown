@@ -1,10 +1,10 @@
 # **VirtualPulldown v.1**
 
-VirtualPulldown is a command line tool designed to discover phage-encoded recombination directionality factors (RDFs) that specifically interact with large serine integrases (LSIs). It automates the formatting and preparation of input sequence pairs for structure prediction using [LocalColabFold](https://github.com/YoshitakaMo/localcolabfold), streamlining the process for large-scale analyses. 
+VirtualPulldown is a command-line tool designed to discover phage-encoded recombination directionality factors (RDFs) that specifically interact with large serine integrases (LSIs). It automates the identification of prophage regions and the formatting and preparation of input sequence pairs for structure prediction using [LocalColabFold](https://github.com/YoshitakaMo/localcolabfold), enabling large-scale analyses
 
-The script supports batch processing of multiple genomic sequences, enabling high-throughput identification of candidate RDF-LSI interactions. This makes [VirtualPulldown v.1](https://github.com/heeropang/v_pulldown) ideal for researchers investigating phage LSI recombination systems or exploring protein-protein interactions across diverse datasets. 
+The script supports batch processing of multiple genomic sequences for identification of candidate RDF-LSI interactions, making it ideal for high-throughput exploration of protein-protein interactions across diverse datasets.
 
-For broader applications beyond RDF-LSI systems, see [VirtualPulldown v.2](https://github.com/heeropang/VirtualPulldown_v.2), designed for general users.
+## See [VirtualPulldown v.2](https://github.com/heeropang/VirtualPulldown_v.2) for applications beyond the RDF-LSI system.
 
 ## Getting started with *VirtualPullDown*
 This package streamlines the virtual pulldown experiment through ColabFold by utilizing three steps:
